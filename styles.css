@@ -291,3 +291,67 @@ body {
                 max-width: 100% !important;
             }
         }
+/* =========================================
+   ----- Estilos para Gráficos Personalizados -----
+   ========================================= */
+
+.chart-container {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.chart-container h5 {
+    color: var(--color-texto);
+    font-weight: 600;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #f1f1f1;
+    padding-bottom: 10px;
+}
+
+/* Estilos para el contenedor del gráfico de barras simple */
+.simple-bar-chart {
+    display: flex;
+    align-items: flex-end; /* Las barras comienzan desde abajo */
+    justify-content: space-between;
+    height: 300px; /* Altura del área del gráfico */
+    padding: 10px 0;
+    margin-top: 10px;
+    border-left: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+.simple-bar-chart .bar {
+    width: 80px; /* Ancho fijo de la barra */
+    min-width: 50px;
+    margin: 0 15px;
+    background-color: var(--color-primario);
+    transition: height 0.5s ease-out;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+.simple-bar-chart .bar span {
+    /* Valor numérico en la parte superior */
+    position: absolute;
+    top: -25px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-texto);
+}
+
+.simple-bar-chart .bar .label {
+    /* Etiqueta de la categoría */
+    position: absolute;
+    bottom: -30px;
+    font-size: 0.8rem;
+    color: #6c757d;
+    text-align: center;
+    width: 100px;
+}
