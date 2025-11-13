@@ -240,19 +240,18 @@ function renderEducacionAmbiental(container) {
             <div class="col-lg-12">
                 <div class="chart-container">
                     <h5>Comparativa Anual de Talleres</h5>
-                    <div class="chart-wrapper" style="position: relative; height: 350px;">
-                        <div id="chart-talleres"></div>
-                    </div>
+                    <div id="chart-talleres" style="position: relative; height: 350px;">
+                        </div>
                 </div>
             </div>
         </div>
     `;
     
     // Animar contadores
-    animateCounter('kpi-ninos-en-talleres', talleres ? talleres['ACUMULADO TOTAL'] : 0);
+    animateCounter('kpi-niños-en-talleres', talleres ? talleres['ACUMULADO TOTAL'] : 0);
     animateCounter('kpi-alumnos-en-promesa-al-ambiente', promesa ? promesa['ACUMULADO TOTAL'] : 0);
     
-    // Crear gráfico
+    // Crear gráfico con Chart.js
     if (talleres) {
         createBarChart(
             'chart-talleres',
@@ -299,7 +298,7 @@ function renderEconomiaCircular(container) {
     `;
     
     // Animar contadores
-    animateCounter('kpi-neumaticos-tn', neumaticos ? neumaticos['ACUMULADO TOTAL'] : 0);
+    animateCounter('kpi-neumáticos-tn', neumaticos ? neumaticos['ACUMULADO TOTAL'] : 0);
     animateCounter('kpi-raee-tn', raee ? raee['ACUMULADO TOTAL'] : 0);
     animateCounter('kpi-puntos-limpios-instalados', puntosLimpiosData ? puntosLimpiosData['ACUMULADO TOTAL'] : 0);
     
@@ -370,9 +369,8 @@ function renderDesarrolloSostenible(container) {
             <div class="col-lg-12">
                 <div class="chart-container">
                     <h5>Comparativa Huertas Creadas</h5>
-                    <div class="chart-wrapper" style="position: relative; height: 350px;">
-                        <div id="chart-huertas"></div>
-                    </div>
+                    <div id="chart-huertas" style="position: relative; height: 350px;">
+                         </div>
                 </div>
             </div>
         </div>
@@ -392,6 +390,9 @@ function renderDesarrolloSostenible(container) {
 }
 
 function renderInspecciones(container) {
+    const convenios = datosIndicadores.find(d => d.INDICADOR.includes('CONVENIOS'));
+    const campanas = datosIndicadores.find(d => d.INDICADOR.includes('CAMPAÑAS'));
+    
     container.innerHTML = `
         <h2 class="section-title">Inspecciones</h2>
         
@@ -399,14 +400,42 @@ function renderInspecciones(container) {
             <p>Realiza inspecciones, inspecciones conjuntas (con la Dirección de Inspecciones Comerciales), labra actas de comprobación y actas de clausura, y ejecuta operativos de fiscalización.</p>
         </div>
         
-        <div class="alert alert-info" role="alert">
-            <span class="emoji-icon">ℹ️</span>
-            No hay indicadores numéricos (KPIs) disponibles en la hoja de datos para esta Dirección.
+        <div class="alert alert-warning" role="alert">
+            <span class="emoji-icon">⚠️</span>
+            **Indicadores: No se encontraron KPIs numéricos directos para esta dirección en los datos base.**
+        </div>
+        
+        <div class="chart-container mt-4">
+            <h5>Indicadores de Alto Nivel Relacionados (Articulación y Control)</h5>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Indicador</th>
+                        <th>Dependencia</th>
+                        <th>Acumulado Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Convenios Firmados</td>
+                        <td>Subsecretaría de Gestión Ambiental</td>
+                        <td>${convenios ? convenios['ACUMULADO TOTAL'].toLocaleString('es-AR') : 'N/A'}</td>
+                    </tr>
+                    <tr>
+                        <td>Campañas de Comunicación</td>
+                        <td>Subsecretaría de Gestión Ambiental</td>
+                        <td>${campanas ? campanas['ACUMULADO TOTAL'].toLocaleString('es-AR') : 'N/A'}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     `;
 }
 
 function renderImpactoAmbiental(container) {
+    const convenios = datosIndicadores.find(d => d.INDICADOR.includes('CONVENIOS'));
+    const campanas = datosIndicadores.find(d => d.INDICADOR.includes('CAMPAÑAS'));
+    
     container.innerHTML = `
         <h2 class="section-title">Impacto Ambiental</h2>
         
@@ -414,14 +443,42 @@ function renderImpactoAmbiental(container) {
             <p>Es responsable de la emisión de las Resoluciones de CAAM (Certificado de Aptitud Ambiental) y de la capacitación o asesoramiento para la obtención del mismo.</p>
         </div>
         
-        <div class="alert alert-info" role="alert">
-            <span class="emoji-icon">ℹ️</span>
-            No hay indicadores numéricos (KPIs) disponibles en la hoja de datos para esta Dirección.
+        <div class="alert alert-warning" role="alert">
+            <span class="emoji-icon">⚠️</span>
+            **Indicadores: No se encontraron KPIs numéricos directos para esta dirección en los datos base.**
+        </div>
+        
+        <div class="chart-container mt-4">
+            <h5>Indicadores de Alto Nivel Relacionados (Articulación y Control)</h5>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Indicador</th>
+                        <th>Dependencia</th>
+                        <th>Acumulado Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Convenios Firmados</td>
+                        <td>Subsecretaría de Gestión Ambiental</td>
+                        <td>${convenios ? convenios['ACUMULADO TOTAL'].toLocaleString('es-AR') : 'N/A'}</td>
+                    </tr>
+                    <tr>
+                        <td>Campañas de Comunicación</td>
+                        <td>Subsecretaría de Gestión Ambiental</td>
+                        <td>${campanas ? campanas['ACUMULADO TOTAL'].toLocaleString('es-AR') : 'N/A'}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     `;
 }
 
 function renderPatrullaAmbiental(container) {
+    const convenios = datosIndicadores.find(d => d.INDICADOR.includes('CONVENIOS'));
+    const campanas = datosIndicadores.find(d => d.INDICADOR.includes('CAMPAÑAS'));
+    
     container.innerHTML = `
         <h2 class="section-title">Patrulla Ambiental</h2>
         
@@ -429,14 +486,42 @@ function renderPatrullaAmbiental(container) {
             <p>Sus funciones incluyen operativos de fiscalización y control de microbasurales, colaboraciones especiales con otras áreas municipales, la generación de reportes diarios/denuncias, y la emisión de actas de infracción y cédulas de notificación.</p>
         </div>
         
-        <div class="alert alert-info" role="alert">
-            <span class="emoji-icon">ℹ️</span>
-            No hay indicadores numéricos (KPIs) disponibles en la hoja de datos para esta Dirección.
+        <div class="alert alert-warning" role="alert">
+            <span class="emoji-icon">⚠️</span>
+            **Indicadores: No se encontraron KPIs numéricos directos para esta dirección en los datos base.**
+        </div>
+        
+        <div class="chart-container mt-4">
+            <h5>Indicadores de Alto Nivel Relacionados (Articulación y Control)</h5>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Indicador</th>
+                        <th>Dependencia</th>
+                        <th>Acumulado Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Convenios Firmados</td>
+                        <td>Subsecretaría de Gestión Ambiental</td>
+                        <td>${convenios ? convenios['ACUMULADO TOTAL'].toLocaleString('es-AR') : 'N/A'}</td>
+                    </tr>
+                    <tr>
+                        <td>Campañas de Comunicación</td>
+                        <td>Subsecretaría de Gestión Ambiental</td>
+                        <td>${campanas ? campanas['ACUMULADO TOTAL'].toLocaleString('es-AR') : 'N/A'}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     `;
 }
 
 function renderProyectosAmbientales(container) {
+    const huertas = datosIndicadores.find(d => d.INDICADOR.includes('HUERTAS'));
+    const talleres = datosIndicadores.find(d => d.INDICADOR.includes('TALLERES'));
+    
     container.innerHTML = `
         <h2 class="section-title">Proyectos Ambientales</h2>
         
@@ -444,9 +529,34 @@ function renderProyectosAmbientales(container) {
             <p>Se encarga de la puesta a punto, el enriquecimiento y el mantenimiento de espacios verdes (plazas, platabandas, rotondas, etc.).</p>
         </div>
         
-        <div class="alert alert-info" role="alert">
-            <span class="emoji-icon">ℹ️</span>
-            No hay indicadores numéricos (KPIs) disponibles en la hoja de datos para esta Dirección.
+        <div class="alert alert-warning" role="alert">
+            <span class="emoji-icon">⚠️</span>
+            **Indicadores: No se encontraron KPIs numéricos directos para esta dirección en los datos base.**
+        </div>
+        
+        <div class="chart-container mt-4">
+            <h5>Indicadores Relacionados (Desarrollo y Educación)</h5>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Indicador</th>
+                        <th>Dependencia</th>
+                        <th>Acumulado Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Huertas Comunitarias</td>
+                        <td>Dirección de Desarrollo Sostenible</td>
+                        <td>${huertas ? huertas['ACUMULADO TOTAL'].toLocaleString('es-AR') : 'N/A'}</td>
+                    </tr>
+                    <tr>
+                        <td>Talleres de Educación Ambiental</td>
+                        <td>Dirección General de Educación Ambiental</td>
+                        <td>${talleres ? talleres['ACUMULADO TOTAL'].toLocaleString('es-AR') : 'N/A'}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     `;
 }
@@ -473,7 +583,7 @@ function renderArticulacion(container) {
     `;
     
     animateCounter('kpi-convenios-firmados', convenios ? convenios['ACUMULADO TOTAL'] : 0);
-    animateCounter('kpi-campanas-de-comunicacion', campanas ? campanas['ACUMULADO TOTAL'] : 0);
+    animateCounter('kpi-campañas-de-comunicación', campanas ? campanas['ACUMULADO TOTAL'] : 0);
 }
 
 // Funciones de utilidad
@@ -505,55 +615,84 @@ function animateCounter(id, endValue) {
     const steps = duration / stepTime;
     const increment = endValue / steps;
     
-    const isFloat = endValue % 1 !== 0;
+    // Si el valor es fraccional o pequeño, lo tratamos como flotante para mostrar decimales.
+    const isFloat = endValue % 1 !== 0 || endValue < 100;
 
     const timer = setInterval(() => {
         startValue += increment;
         if (startValue >= endValue) {
             clearInterval(timer);
             el.textContent = isFloat ? 
-                endValue.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) : 
+                endValue.toLocaleString('es-AR', {minimumFractionDigits: (endValue % 1 !== 0 ? 2 : 0), maximumFractionDigits: 2}) : 
                 endValue.toLocaleString('es-AR');
         } else {
             el.textContent = isFloat ? 
-                startValue.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) : 
+                startValue.toLocaleString('es-AR', {minimumFractionDigits: (endValue % 1 !== 0 ? 2 : 0), maximumFractionDigits: 2}) : 
                 Math.ceil(startValue).toLocaleString('es-AR');
         }
     }, stepTime);
 }
 
+// Función de gráficos MEJORADA usando Chart.js
 function createBarChart(containerId, labels, dataLabel, data, color = '#02b3e4') {
     const container = document.getElementById(containerId);
     if (!container) return;
 
-    container.innerHTML = '';
+    // 1. Reemplazar el contenedor por un canvas para Chart.js
+    container.innerHTML = '<canvas id="myChart"></canvas>';
+    const ctx = document.getElementById('myChart').getContext('2d');
+    
+    // 2. Definir los colores para un look más institucional
+    // Los colores son: 2024 (color principal), 2025 (gris/secundario), 2026 (color principal, atenuado/meta)
+    const backgroundColor = [color, '#cccccc', color + '80']; 
 
-    const barChartEl = document.createElement('div');
-    barChartEl.classList.add('simple-bar-chart');
-
-    const maxValue = Math.max(...data, 1);
-
-    data.forEach((value, index) => {
-        const bar = document.createElement('div');
-        bar.classList.add('bar');
-        bar.style.backgroundColor = color;
-        const heightPercent = (value / maxValue) * 100;
-        bar.style.height = `${heightPercent}%`;
-
-        const spanValue = document.createElement('span');
-        spanValue.textContent = value.toLocaleString('es-AR');
-        bar.appendChild(spanValue);
-
-        const labelEl = document.createElement('div');
-        labelEl.classList.add('label');
-        labelEl.textContent = labels[index];
-        bar.appendChild(labelEl);
-
-        barChartEl.appendChild(bar);
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: dataLabel,
+                data: data,
+                backgroundColor: backgroundColor,
+                borderColor: color,
+                borderWidth: 1,
+                borderRadius: 5,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false, 
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: dataLabel
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.dataset.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            // Formato con separador de miles (ej. 3.600)
+                            label += context.parsed.y.toLocaleString('es-AR');
+                            return label;
+                        }
+                    }
+                }
+            }
+        }
     });
-
-    container.appendChild(barChartEl);
 }
+
 
 function initializeMap(markersData, type) {
     const mapEl = document.getElementById('map');
@@ -601,8 +740,9 @@ function initializeMap(markersData, type) {
     
     // Ajustar el zoom a los marcadores si hay datos
     if (markersData.length > 0) {
+        // Se añade un pequeño buffer para que el zoom no sea muy justo
         const group = new L.featureGroup(markersData.map(d => L.marker([d.lat, d.lng])));
-        mapInstance.fitBounds(group.getBounds().pad(0.1));
+        mapInstance.fitBounds(group.getBounds().pad(0.1)); 
     }
 }
 
