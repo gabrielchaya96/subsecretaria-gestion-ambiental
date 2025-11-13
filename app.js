@@ -265,7 +265,7 @@ function renderSection(sectionName) {
     }
 }
 
-// CORRECCIÓN: Se agrega la verificación 'd.INDICADOR &&'
+// CORRECCIÓN: Se agrega la verificación 'd.INDICADOR &&' para estabilidad
 function renderEducacionAmbiental(container) {
     const talleres = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('TALLERES'));
     const promesa = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('PROMESA'));
@@ -299,7 +299,7 @@ function renderEducacionAmbiental(container) {
     `;
     
     // Animar contadores
-    animateCounter('kpi-ninos-en-talleres', talleres ? talleres['ACUMULADO TOTAL'] : 0);
+    animateCounter('kpi-niños-en-talleres', talleres ? talleres['ACUMULADO TOTAL'] : 0);
     animateCounter('kpi-alumnos-en-promesa-al-ambiente', promesa ? promesa['ACUMULADO TOTAL'] : 0);
     
     // Crear gráfico
@@ -350,7 +350,7 @@ function renderEconomiaCircular(container) {
     `;
     
     // Animar contadores
-    animateCounter('kpi-neumaticos-tn', neumaticos ? neumaticos['ACUMULADO TOTAL'] : 0);
+    animateCounter('kpi-neumáticos-tn', neumaticos ? neumaticos['ACUMULADO TOTAL'] : 0);
     animateCounter('kpi-raee-tn', raee ? raee['ACUMULADO TOTAL'] : 0);
     animateCounter('kpi-puntos-limpios-instalados', puntosLimpiosData ? puntosLimpiosData['ACUMULADO TOTAL'] : 0);
     
@@ -361,11 +361,10 @@ function renderEconomiaCircular(container) {
 // CORRECCIÓN: Se agrega la verificación 'd.INDICADOR &&'
 function renderCambioClimatico(container) {
     const medicionesAire = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('CALIDAD DEL AIRE'));
-    const descacharrado = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('DESCACHARRADO'));
     
     // Filtrar barrios intervenidos para descacharrado
     const barriosIntervenidos = datosBarrios.filter(b => 
-        b['TAREAS DESARROLLADAS'].toLowerCase().includes('descacharrado')
+        b['TAREAS DESARROLLADAS'] && b['TAREAS DESARROLLADAS'].toLowerCase().includes('descacharrado')
     );
     
     container.innerHTML = `
@@ -444,7 +443,7 @@ function renderDesarrolloSostenible(container) {
     }
 }
 
-// NUEVA FUNCIÓN MEJORADA
+// FUNCIÓN MEJORADA: Usa datos de Inspecciones y la tabla de relacionados
 function renderInspecciones(container) {
     const actasInfraccion = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('INFRACCIÓN LABRADAS'));
     const actasClausura = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('ACTAS DE CLAUSURA'));
@@ -453,7 +452,7 @@ function renderInspecciones(container) {
         <h2 class="section-title">Inspecciones</h2>
         
         <div class="section-description">
-            <p>Realiza inspecciones, inspecciones conjuntas (con la Dirección de Inspecciones Comerciales), labra actas de comprobación y actas de clausura, y ejecuta operativos de fiscalización.</p>
+            <p>Realiza inspecciones, inspecciones conjuntas, labra actas de comprobación y actas de clausura, y ejecuta operativos de fiscalización.</p>
         </div>
         
         <div class="row g-4 mb-4">
@@ -475,9 +474,11 @@ function renderInspecciones(container) {
                 </div>
             </div>
         </div>
+        
+        ${createRelatedIndicatorsTable('Indicadores de la Dirección de Inspecciones', 'Dirección de Inspecciones')}
     `;
 
-    animateCounter('kpi-actas-de-infraccion', actasInfraccion ? actasInfraccion['ACUMULADO TOTAL'] : 0);
+    animateCounter('kpi-actas-de-infracción', actasInfraccion ? actasInfraccion['ACUMULADO TOTAL'] : 0);
     animateCounter('kpi-actas-de-clausura', actasClausura ? actasClausura['ACUMULADO TOTAL'] : 0);
 
     if (actasInfraccion) {
@@ -491,7 +492,7 @@ function renderInspecciones(container) {
     }
 }
 
-// NUEVA FUNCIÓN MEJORADA
+// FUNCIÓN MEJORADA: Usa datos de CAAMS y tabla de relacionados
 function renderImpactoAmbiental(container) {
     const caams = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('CAAMS EMITIDOS'));
 
@@ -518,6 +519,8 @@ function renderImpactoAmbiental(container) {
                 </div>
             </div>
         </div>
+        
+        ${createRelatedIndicatorsTable('Indicadores de la Dirección de Impacto Ambiental', 'Dirección de Impacto Ambiental')}
     `;
     
     animateCounter('kpi-caams-emitidos', caams ? caams['ACUMULADO TOTAL'] : 0);
@@ -533,11 +536,14 @@ function renderImpactoAmbiental(container) {
     }
 }
 
-// NUEVA FUNCIÓN MEJORADA
+// FUNCIÓN MEJORADA: Usa datos de Patrulla y gráfico comparativo
 function renderPatrullaAmbiental(container) {
     const operativos = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('OPERATIVOS DE PATRULLA'));
     const denuncias = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('DENUNCIAS AMBIENTALES'));
 
+    const operativosTotal = operativos ? operativos['ACUMULADO TOTAL'] : 0;
+    const denunciasTotal = denuncias ? denuncias['ACUMULADO TOTAL'] : 0;
+    
     container.innerHTML = `
         <h2 class="section-title">Patrulla Ambiental</h2>
         
@@ -547,10 +553,10 @@ function renderPatrullaAmbiental(container) {
         
         <div class="row g-4 mb-4">
             <div class="col-md-6 col-lg-4">
-                ${createKpiCard('Operativos Realizados', operativos ? operativos['ACUMULADO TOTAL'] : 0, '🚔', 'kpi-icon-purple')}
+                ${createKpiCard('Operativos Realizados', operativosTotal, '🚓', 'kpi-icon-purple')}
             </div>
             <div class="col-md-6 col-lg-4">
-                ${createKpiCard('Denuncias Atendidas', denuncias ? denuncias['ACUMULADO TOTAL'] : 0, '🚨', 'kpi-icon-orange')}
+                ${createKpiCard('Denuncias Atendidas', denunciasTotal, '🚨', 'kpi-icon-orange')}
             </div>
         </div>
 
@@ -564,26 +570,23 @@ function renderPatrullaAmbiental(container) {
                 </div>
             </div>
         </div>
+        
+        ${createRelatedIndicatorsTable('Indicadores de la Dirección de Patrulla Ambiental', 'Dirección de Patrulla Ambiental')}
     `;
 
-    animateCounter('kpi-operativos-realizados', operativos ? operativos['ACUMULADO TOTAL'] : 0);
-    animateCounter('kpi-denuncias-atendidas', denuncias ? denuncias['ACUMULADO TOTAL'] : 0);
+    animateCounter('kpi-operativos-realizados', operativosTotal);
+    animateCounter('kpi-denuncias-atendidas', denunciasTotal);
 
     if (operativos && denuncias) {
         const data = [
             { label: 'Operativos', value: operativos['ACUMULADO 2024'], color: '#7b2cbf' },
             { label: 'Denuncias', value: denuncias['ACUMULADO 2024'], color: '#ff8c00' }
         ];
-
-        // Se usa createCustomBarChart para mostrar una comparativa simple entre dos métricas
-        createCustomBarChart(
-            'chart-patrulla',
-            data
-        );
+        createCustomBarChart('chart-patrulla', data);
     }
 }
 
-// NUEVA FUNCIÓN MEJORADA
+// FUNCIÓN MEJORADA: Usa datos de Proyectos Ambientales
 function renderProyectosAmbientales(container) {
     const espaciosVerdes = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('ESPACIOS VERDES INTERVENIDOS'));
 
@@ -610,6 +613,8 @@ function renderProyectosAmbientales(container) {
                 </div>
             </div>
         </div>
+        
+        ${createRelatedIndicatorsTable('Indicadores de la Dirección de Proyectos Ambientales', 'Dirección de Proyectos Ambientales')}
     `;
     
     animateCounter('kpi-espacios-verdes-intervenidos', espaciosVerdes ? espaciosVerdes['ACUMULADO TOTAL'] : 0);
@@ -645,16 +650,20 @@ function renderArticulacion(container) {
                 ${createKpiCard('Campañas de Comunicación', campanas ? campanas['ACUMULADO TOTAL'] : 0, '🎤', 'kpi-icon-blue')}
             </div>
         </div>
+        
+        ${createRelatedIndicatorsTable('Indicadores de la Subsecretaría de Gestión Ambiental', 'Subsecretaría de Gestión Ambiental')}
     `;
     
     animateCounter('kpi-convenios-firmados', convenios ? convenios['ACUMULADO TOTAL'] : 0);
     animateCounter('kpi-campanas-de-comunicacion', campanas ? campanas['ACUMULADO TOTAL'] : 0);
 }
 
-// Funciones de utilidad
+// =========================================
+// ----- FUNCIONES DE UTILIDAD Y COMPONENTES -----
+// =========================================
 
 function createKpiCard(label, value, icon, colorClass) {
-    // CORRECCIÓN: Se hace el ID más seguro eliminando caracteres no alfanuméricos
+    // Generación de ID más robusto
     const kpiId = 'kpi-' + label.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
     
     return `
@@ -676,10 +685,9 @@ function animateCounter(id, endValue) {
     const el = document.getElementById(id);
     if (!el) return;
 
-    // Asegurar que endValue sea un número
     const finalValue = Number(endValue);
     if (isNaN(finalValue)) {
-        el.textContent = endValue; // Mostrar el valor original si no es un número
+        el.textContent = endValue;
         return;
     }
 
@@ -689,25 +697,29 @@ function animateCounter(id, endValue) {
     const steps = duration / stepTime;
     const increment = finalValue / steps;
     
-    // Determinar si el valor es flotante o entero
     const isFloat = finalValue % 1 !== 0 || String(finalValue).includes('.');
-    const decimalPlaces = isFloat ? 2 : 0; // Usar 2 decimales si es flotante
+    const decimalPlaces = isFloat ? 2 : 0;
 
     const timer = setInterval(() => {
         startValue += increment;
         if (startValue >= finalValue) {
             clearInterval(timer);
-            // Mostrar el valor final formateado
             el.textContent = finalValue.toLocaleString('es-AR', {minimumFractionDigits: decimalPlaces, maximumFractionDigits: decimalPlaces});
         } else {
-            // Mostrar el valor intermedio formateado
             const displayValue = isFloat ? startValue : Math.ceil(startValue);
             el.textContent = displayValue.toLocaleString('es-AR', {minimumFractionDigits: decimalPlaces, maximumFractionDigits: decimalPlaces});
         }
     }, stepTime);
 }
 
-// Función de gráfico de barras para un solo set de datos (Anual)
+/**
+ * Crea un gráfico de barras simple para comparación anual.
+ * @param {string} containerId ID del contenedor DIV.
+ * @param {string[]} labels Etiquetas de los ejes (ej: ['2024', '2025']).
+ * @param {string} dataLabel Nombre de la serie de datos.
+ * @param {number[]} data Valores numéricos.
+ * @param {string} color Color de las barras.
+ */
 function createBarChart(containerId, labels, dataLabel, data, color = '#02b3e4') {
     const container = document.getElementById(containerId);
     if (!container) return;
@@ -719,18 +731,23 @@ function createBarChart(containerId, labels, dataLabel, data, color = '#02b3e4')
 
     const dataArray = data.map(Number).filter(n => !isNaN(n));
     const maxValue = Math.max(...dataArray, 1);
-    const dataDisplay = data; // Usamos el array original para el display si hay valores no numéricos
+    const dataDisplay = data;
 
     dataArray.forEach((value, index) => {
         const bar = document.createElement('div');
         bar.classList.add('bar');
         bar.style.backgroundColor = color;
-        const heightPercent = (value / maxValue) * 90; // 90% para dejar espacio para la etiqueta superior
+        // Ajuste de altura para dejar espacio para la etiqueta superior
+        const heightPercent = (value / maxValue) * 90;
         bar.style.height = `${heightPercent}%`;
+        
+        // CORRECCIÓN: Evitar NaN si el dato es null/undefined
+        const displayValue = (dataDisplay[index] !== undefined && dataDisplay[index] !== null) ? Number(dataDisplay[index]) : 0;
+        const isFloat = displayValue % 1 !== 0 || String(displayValue).includes('.');
+        const decimalPlaces = isFloat ? 2 : 0;
 
         const spanValue = document.createElement('span');
-        // Usar el valor original (formateado) si existe
-        spanValue.textContent = (dataDisplay[index] !== undefined && dataDisplay[index] !== null) ? Number(dataDisplay[index]).toLocaleString('es-AR') : '0';
+        spanValue.textContent = displayValue.toLocaleString('es-AR', {minimumFractionDigits: decimalPlaces, maximumFractionDigits: decimalPlaces});
         bar.appendChild(spanValue);
 
         const labelEl = document.createElement('div');
@@ -744,7 +761,12 @@ function createBarChart(containerId, labels, dataLabel, data, color = '#02b3e4')
     container.appendChild(barChartEl);
 }
 
-// Función de gráfico de barras para múltiples sets de datos (Comparativa)
+
+/**
+ * Crea un gráfico de barras para comparar diferentes categorías con colores distintos.
+ * @param {string} containerId ID del contenedor DIV.
+ * @param {Array<{label: string, value: number, color: string}>} data Array de objetos de datos.
+ */
 function createCustomBarChart(containerId, data) {
     const container = document.getElementById(containerId);
     if (!container) return;
@@ -753,9 +775,7 @@ function createCustomBarChart(containerId, data) {
 
     const barChartEl = document.createElement('div');
     barChartEl.classList.add('simple-bar-chart');
-    barChartEl.style.justifyContent = 'space-around';
-    barChartEl.style.alignItems = 'flex-end';
-    
+
     const dataValues = data.map(d => Number(d.value)).filter(n => !isNaN(n));
     const maxValue = Math.max(...dataValues, 1);
 
@@ -766,12 +786,14 @@ function createCustomBarChart(containerId, data) {
         const bar = document.createElement('div');
         bar.classList.add('bar');
         bar.style.backgroundColor = item.color;
-        const heightPercent = (value / maxValue) * 90; // 90% para dejar espacio para la etiqueta superior
+        const heightPercent = (value / maxValue) * 90;
         bar.style.height = `${heightPercent}%`;
-        bar.style.width = '100px'; // Ancho fijo para las barras
+        
+        const isFloat = value % 1 !== 0 || String(value).includes('.');
+        const decimalPlaces = isFloat ? 2 : 0;
 
         const spanValue = document.createElement('span');
-        spanValue.textContent = value.toLocaleString('es-AR');
+        spanValue.textContent = value.toLocaleString('es-AR', {minimumFractionDigits: decimalPlaces, maximumFractionDigits: decimalPlaces});
         bar.appendChild(spanValue);
 
         const labelEl = document.createElement('div');
@@ -785,32 +807,83 @@ function createCustomBarChart(containerId, data) {
     container.appendChild(barChartEl);
 }
 
+/**
+ * Crea una tabla de indicadores relacionados para mostrar detalles.
+ * @param {string} title Título de la sección de la tabla.
+ * @param {string} filterDependencia Valor exacto de AREA/DEPENDENCIA a filtrar.
+ */
+function createRelatedIndicatorsTable(title, filterDependencia) {
+    const relatedIndicators = datosIndicadores.filter(d => 
+        d['AREA/DEPENDENCIA'] === filterDependencia
+    );
+
+    if (relatedIndicators.length === 0) {
+        return `<div class="alert-warning-custom mt-4" role="alert">
+            <strong>Atención:</strong> No hay indicadores específicos con el filtro "${filterDependencia}".
+        </div>`;
+    }
+
+    let tableRows = relatedIndicators.map(d => `
+        <tr>
+            <td>${d.INDICADOR}</td>
+            <td>${d['AREA/DEPENDENCIA']}</td>
+            <td>${Number(d['ACUMULADO TOTAL']).toLocaleString('es-AR', {minimumFractionDigits: 0, maximumFractionDigits: 2})}</td>
+        </tr>
+    `).join('');
+
+    return `
+        <div class="chart-container mt-4">
+            <h5>${title}</h5>
+            <div class="table-responsive">
+                <table class="table table-related-indicators">
+                    <thead>
+                        <tr>
+                            <th>Indicador</th>
+                            <th>Dependencia</th>
+                            <th>Acumulado Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${tableRows}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    `;
+}
+
+
+// =========================================
+// ----- FUNCIONES DE MAPA Y EXPORTACIÓN -----
+// =========================================
 
 function initializeMap(markersData, type) {
     const mapEl = document.getElementById('map');
     if (!mapEl) return;
+
+    // Asegurarse de que el mapa no se inicialice dos veces
+    if (mapInstance) {
+        mapInstance.remove();
+    }
 
     mapInstance = L.map('map').setView(SALTA_CENTER, 13);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(mapInstance);
 
-    // Iconos personalizados
-    const barrioIcon = L.icon({
-        iconUrl: 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#D90429" width="32px" height="32px"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>'),
+    // Iconos personalizados con SVG
+    const createSvgIcon = (fillColor) => L.icon({
+        iconUrl: 'data:image/svg+xml;base64,' + btoa(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="${fillColor}" width="32px" height="32px"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`),
         iconSize: [32, 32],
         iconAnchor: [16, 32],
         popupAnchor: [0, -32]
     });
     
-    const puntoLimpioIcon = L.icon({
-        iconUrl: 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#009A44" width="32px" height="32px"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>'),
-        iconSize: [32, 32],
-        iconAnchor: [16, 32],
-        popupAnchor: [0, -32]
-    });
+    const barrioIcon = createSvgIcon('#D90429'); // Rojo
+    const puntoLimpioIcon = createSvgIcon('#009A44'); // Verde
 
     // Añadir marcadores
+    const validMarkers = [];
     markersData.forEach(d => {
         if (d.lat && d.lng) {
             let popupContent = '';
@@ -824,22 +897,20 @@ function initializeMap(markersData, type) {
                 icon = puntoLimpioIcon;
             }
             
-            L.marker([d.lat, d.lng], { icon: icon })
+            const marker = L.marker([d.lat, d.lng], { icon: icon })
                 .addTo(mapInstance)
                 .bindPopup(popupContent);
+            
+            validMarkers.push(marker);
         }
     });
     
     // Ajustar el zoom a los marcadores si hay datos
-    if (markersData.length > 0) {
-        // CORRECCIÓN: Filtrar para asegurar que solo se pasen marcadores válidos al FeatureGroup
-        const validMarkers = markersData.filter(d => d.lat && d.lng).map(d => L.marker([d.lat, d.lng]));
-        if (validMarkers.length > 0) {
-            const group = new L.featureGroup(validMarkers);
-            mapInstance.fitBounds(group.getBounds().pad(0.1));
-        } else {
-             mapInstance.setView(SALTA_CENTER, 13); // Volver al centro si no hay marcadores
-        }
+    if (validMarkers.length > 0) {
+        const group = new L.featureGroup(validMarkers);
+        mapInstance.fitBounds(group.getBounds().pad(0.1));
+    } else {
+         mapInstance.setView(SALTA_CENTER, 13);
     }
 }
 
@@ -852,13 +923,15 @@ function exportToCSV() {
     const headers = Object.keys(datosIndicadores[0]);
     let csvContent = "data:text/csv;charset=utf-8,";
     
+    // Formato de cabecera usando ';' como delimitador
     csvContent += headers.join(";") + "\r\n";
 
     datosIndicadores.forEach(row => {
         const values = headers.map(header => {
             let cell = row[header] === null || row[header] === undefined ? '' : row[header];
             cell = String(cell).replace(/"/g, '""');
-            if (cell.includes(';') || cell.includes(',')) {
+            // Si el contenido contiene el delimitador o un salto de línea, encapsularlo
+            if (cell.includes(';') || cell.includes(',') || cell.includes('\n')) {
                 cell = `"${cell}"`;
             }
             return cell;
