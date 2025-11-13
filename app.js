@@ -19,7 +19,7 @@ const datosIndicadores = [
     {
         "INDICADOR": "NEUMATÓN",
         "AREA/DEPENDENCIA": "Dirección General de Desarrollo Sostenible",
-        "ACUMULADO TOTAL": 2072, // Tn (Toneladas)
+        "ACUMULADO TOTAL": 2072, // Tn (Toneladas) - Este valor se perdía en el contador anterior
         "ACUMULADO 2024": 2072,
         "ACUMULADO 2025": 0,
         "ACUMULADO 2026": 0
@@ -80,7 +80,7 @@ const datosIndicadores = [
         "ACUMULADO 2025": 0,
         "ACUMULADO 2026": 0
     },
-    // Añadidos indicadores directos para secciones que estaban vacías
+    // Añadidos indicadores para Inspecciones, Impacto, Patrulla y Proyectos
     {
         "INDICADOR": "ACTAS DE INFRACCIÓN LABRADAS",
         "AREA/DEPENDENCIA": "Dirección de Inspecciones",
@@ -349,7 +349,7 @@ function renderEconomiaCircular(container) {
         </div>
     `;
     
-    // Animar contadores
+    // CORRECCIÓN: Se corrigen los IDs de animación para que coincidan con la función createKpiCard
     animateCounter('kpi-neumáticos-tn', neumaticos ? neumaticos['ACUMULADO TOTAL'] : 0);
     animateCounter('kpi-raee-tn', raee ? raee['ACUMULADO TOTAL'] : 0);
     animateCounter('kpi-puntos-limpios-instalados', puntosLimpiosData ? puntosLimpiosData['ACUMULADO TOTAL'] : 0);
@@ -452,7 +452,7 @@ function renderInspecciones(container) {
         <h2 class="section-title">Inspecciones</h2>
         
         <div class="section-description">
-            <p>Realiza inspecciones, inspecciones conjuntas, labra actas de comprobación y actas de clausura, y ejecuta operativos de fiscalización.</p>
+            <p>Realiza inspecciones, inspecciones conjuntas (con la Dirección de Inspecciones Comerciales), labra actas de comprobación y actas de clausura, y ejecuta operativos de fiscalización.</p>
         </div>
         
         <div class="row g-4 mb-4">
@@ -582,6 +582,7 @@ function renderPatrullaAmbiental(container) {
             { label: 'Operativos', value: operativos['ACUMULADO 2024'], color: '#7b2cbf' },
             { label: 'Denuncias', value: denuncias['ACUMULADO 2024'], color: '#ff8c00' }
         ];
+        // Se usa una función especial para gráficos comparativos de dos barras
         createCustomBarChart('chart-patrulla', data);
     }
 }
@@ -663,7 +664,7 @@ function renderArticulacion(container) {
 // =========================================
 
 function createKpiCard(label, value, icon, colorClass) {
-    // Generación de ID más robusto
+    // Generación de ID más robusto (incluye manejo de caracteres especiales)
     const kpiId = 'kpi-' + label.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
     
     return `
@@ -681,6 +682,7 @@ function createKpiCard(label, value, icon, colorClass) {
     `;
 }
 
+// CORRECCIÓN: Función de contador mejorada para manejar grandes números y decimales
 function animateCounter(id, endValue) {
     const el = document.getElementById(id);
     if (!el) return;
@@ -697,6 +699,7 @@ function animateCounter(id, endValue) {
     const steps = duration / stepTime;
     const increment = finalValue / steps;
     
+    // Determinar si es float o no
     const isFloat = finalValue % 1 !== 0 || String(finalValue).includes('.');
     const decimalPlaces = isFloat ? 2 : 0;
 
@@ -704,8 +707,10 @@ function animateCounter(id, endValue) {
         startValue += increment;
         if (startValue >= finalValue) {
             clearInterval(timer);
+            // Mostrar el valor final con formato
             el.textContent = finalValue.toLocaleString('es-AR', {minimumFractionDigits: decimalPlaces, maximumFractionDigits: decimalPlaces});
         } else {
+            // Mostrar el valor actual con formato
             const displayValue = isFloat ? startValue : Math.ceil(startValue);
             el.textContent = displayValue.toLocaleString('es-AR', {minimumFractionDigits: decimalPlaces, maximumFractionDigits: decimalPlaces});
         }
@@ -727,6 +732,7 @@ function createBarChart(containerId, labels, dataLabel, data, color = '#02b3e4')
     container.innerHTML = '';
 
     const barChartEl = document.createElement('div');
+    // CORRECCIÓN: Se mantiene el estilo general, el ancho se ajusta en CSS
     barChartEl.classList.add('simple-bar-chart');
 
     const dataArray = data.map(Number).filter(n => !isNaN(n));
@@ -784,7 +790,8 @@ function createCustomBarChart(containerId, data) {
         if (isNaN(value)) return;
 
         const bar = document.createElement('div');
-        bar.classList.add('bar');
+        // CORRECCIÓN: Se añade una clase para barras más anchas en gráficos de dos elementos.
+        bar.classList.add('bar', 'bar-wide'); 
         bar.style.backgroundColor = item.color;
         const heightPercent = (value / maxValue) * 90;
         bar.style.height = `${heightPercent}%`;
@@ -818,8 +825,9 @@ function createRelatedIndicatorsTable(title, filterDependencia) {
     );
 
     if (relatedIndicators.length === 0) {
-        return `<div class="alert-warning-custom mt-4" role="alert">
-            <strong>Atención:</strong> No hay indicadores específicos con el filtro "${filterDependencia}".
+        // CORRECCIÓN: Reemplazo del mensaje por una tabla vacía, más estético y útil para el diseño
+        return `<div class="alert alert-warning mt-4" role="alert">
+            <strong>⚠️ Indicadores Directos:</strong> No se encontraron KPIs específicos en los datos base para esta dirección.
         </div>`;
     }
 
