@@ -80,9 +80,9 @@ const datosIndicadores = [
         "ACUMULADO 2025": 0,
         "ACUMULADO 2026": 0
     },
-    // Añadidos para dar contenido a las secciones sin KPIs directos
+    // Nuevos indicadores añadidos para Inspecciones, Impacto, Patrulla y Proyectos
     {
-        "INDICADOR": "ACTAS DE INFRACCIÓN",
+        "INDICADOR": "ACTAS DE INFRACCIÓN LABRADAS",
         "AREA/DEPENDENCIA": "Dirección de Inspecciones",
         "ACUMULADO TOTAL": 150,
         "ACUMULADO 2024": 150,
@@ -90,19 +90,35 @@ const datosIndicadores = [
         "ACUMULADO 2026": 0
     },
     {
-        "INDICADOR": "CERTIFICADOS AMBIENTALES EMITIDOS (CAAM)",
-        "AREA/DEPENDENCIA": "Dirección de Impacto Ambiental",
-        "ACUMULADO TOTAL": 25,
-        "ACUMULADO 2024": 25,
-        "ACUMULADO 2025": 10,
+        "INDICADOR": "ACTAS DE CLAUSURA",
+        "AREA/DEPENDENCIA": "Dirección de Inspecciones",
+        "ACUMULADO TOTAL": 8,
+        "ACUMULADO 2024": 8,
+        "ACUMULADO 2025": 5,
         "ACUMULADO 2026": 0
     },
     {
-        "INDICADOR": "OPERATIVOS DE PATRULLA REALIZADOS",
+        "INDICADOR": "CAAMS EMITIDOS",
+        "AREA/DEPENDENCIA": "Dirección de Impacto Ambiental",
+        "ACUMULADO TOTAL": 35,
+        "ACUMULADO 2024": 35,
+        "ACUMULADO 2025": 20,
+        "ACUMULADO 2026": 0
+    },
+    {
+        "INDICADOR": "OPERATIVOS DE PATRULLA",
         "AREA/DEPENDENCIA": "Dirección de Patrulla Ambiental",
         "ACUMULADO TOTAL": 210,
         "ACUMULADO 2024": 210,
         "ACUMULADO 2025": 100,
+        "ACUMULADO 2026": 0
+    },
+    {
+        "INDICADOR": "DENUNCIAS AMBIENTALES ATENDIDAS",
+        "AREA/DEPENDENCIA": "Dirección de Patrulla Ambiental",
+        "ACUMULADO TOTAL": 120,
+        "ACUMULADO 2024": 120,
+        "ACUMULADO 2025": 50,
         "ACUMULADO 2026": 0
     },
     {
@@ -430,13 +446,13 @@ function renderDesarrolloSostenible(container) {
 
 function renderInspecciones(container) {
     const actasInfraccion = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('ACTAS DE INFRACCIÓN'));
-    const convenios = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('CONVENIOS FIRMADOS'));
+    const actasClausura = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('ACTAS DE CLAUSURA'));
     
     container.innerHTML = `
-        <h2 class="section-title">Inspecciones</h2>
+        <h2 class="section-title">Inspecciones 📋</h2>
         
         <div class="section-description">
-            <p>Realiza inspecciones, inspecciones conjuntas, labra actas de comprobación y clausura, y ejecuta operativos de fiscalización para el cumplimiento de normativas ambientales.</p>
+            <p>Realiza inspecciones, inspecciones conjuntas, labra actas de comprobación y actas de clausura, y ejecuta operativos de fiscalización para el cumplimiento de normativas ambientales.</p>
         </div>
         
         <div class="row g-4 mb-4">
@@ -444,7 +460,7 @@ function renderInspecciones(container) {
                 ${createKpiCard('Actas de Infracción', actasInfraccion ? actasInfraccion['ACUMULADO TOTAL'] : 0, '📝', 'kpi-icon-red')}
             </div>
             <div class="col-md-6 col-lg-4">
-                ${createKpiCard('Convenios con Otros Entes', convenios ? convenios['ACUMULADO TOTAL'] : 0, '🤝', 'kpi-icon-blue')}
+                ${createKpiCard('Actas de Clausura', actasClausura ? actasClausura['ACUMULADO TOTAL'] : 0, '❌', 'kpi-icon-red')}
             </div>
         </div>
 
@@ -459,7 +475,7 @@ function renderInspecciones(container) {
     `;
 
     animateCounter('kpi-actas-de-infraccion', actasInfraccion ? actasInfraccion['ACUMULADO TOTAL'] : 0);
-    animateCounter('kpi-convenios-con-otros-entes', convenios ? convenios['ACUMULADO TOTAL'] : 0);
+    animateCounter('kpi-actas-de-clausura', actasClausura ? actasClausura['ACUMULADO TOTAL'] : 0);
 
     if (actasInfraccion) {
         createBarChart(
@@ -473,11 +489,11 @@ function renderInspecciones(container) {
 }
 
 function renderImpactoAmbiental(container) {
-    const certificados = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('CERTIFICADOS AMBIENTALES EMITIDOS (CAAM)'));
+    const certificados = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('CAAMS EMITIDOS'));
     const campanas = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('CAMPAÑAS DE COMUNICACIÓN'));
 
     container.innerHTML = `
-        <h2 class="section-title">Impacto Ambiental</h2>
+        <h2 class="section-title">Impacto Ambiental 🏞️</h2>
         
         <div class="section-description">
             <p>Es responsable de la emisión de las Resoluciones de CAAM (Certificado de Aptitud Ambiental) y de la capacitación o asesoramiento para la obtención del mismo, asegurando el cumplimiento de normativas.</p>
@@ -517,11 +533,11 @@ function renderImpactoAmbiental(container) {
 }
 
 function renderPatrullaAmbiental(container) {
-    const operativosPatrulla = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('OPERATIVOS DE PATRULLA REALIZADOS'));
-    const convenios = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('CONVENIOS FIRMADOS'));
+    const operativosPatrulla = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('OPERATIVOS DE PATRULLA'));
+    const denuncias = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('DENUNCIAS AMBIENTALES'));
 
     container.innerHTML = `
-        <h2 class="section-title">Patrulla Ambiental</h2>
+        <h2 class="section-title">Patrulla Ambiental 🛡️</h2>
         
         <div class="section-description">
             <p>Sus funciones incluyen operativos de fiscalización y control de microbasurales, colaboraciones especiales con otras áreas municipales, la generación de reportes diarios/denuncias, y la emisión de actas de infracción y cédulas de notificación.</p>
@@ -532,5 +548,299 @@ function renderPatrullaAmbiental(container) {
                 ${createKpiCard('Operativos Realizados', operativosPatrulla ? operativosPatrulla['ACUMULADO TOTAL'] : 0, '🚔', 'kpi-icon-orange')}
             </div>
             <div class="col-md-6 col-lg-4">
-                ${createKpiCard('Colaboraciones Interinstitucionales', convenios ? convenios['ACUMULADO TOTAL'] : 0, '🤝', 'kpi-icon-blue')}
+                ${createKpiCard('Denuncias Atendidas', denuncias ? denuncias['ACUMULADO TOTAL'] : 0, '🚨', 'kpi-icon-red')}
             </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-12">
+                <div class="chart-container">
+                    <h5>Operativos de Patrulla por Año</h5>
+                    <div id="chart-patrulla" style="position: relative; height: 350px;"></div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    animateCounter('kpi-operativos-realizados', operativosPatrulla ? operativosPatrulla['ACUMULADO TOTAL'] : 0);
+    animateCounter('kpi-denuncias-atendidas', denuncias ? denuncias['ACUMULADO TOTAL'] : 0);
+
+    if (operativosPatrulla) {
+        createBarChart(
+            'chart-patrulla',
+            ['2024', '2025', '2026 (Meta)'],
+            'Operativos',
+            [operativosPatrulla['ACUMULADO 2024'], operativosPatrulla['ACUMULADO 2025'], operativosPatrulla['ACUMULADO 2026']],
+            '#ff8c00' // Naranja para control/operativo
+        );
+    }
+}
+
+function renderProyectosAmbientales(container) {
+    const espaciosVerdes = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('ESPACIOS VERDES INTERVENIDOS'));
+    const huertas = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('HUERTAS COMUNITARIAS'));
+
+    container.innerHTML = `
+        <h2 class="section-title">Proyectos Ambientales 🌳</h2>
+        
+        <div class="section-description">
+            <p>Se encarga de la puesta a punto, el enriquecimiento y el mantenimiento de espacios verdes (plazas, platabandas, rotondas, etc.), trabajando en la formulación e implementación de proyectos ambientales.</p>
+        </div>
+        
+        <div class="row g-4 mb-4">
+            <div class="col-md-6 col-lg-4">
+                ${createKpiCard('Espacios Verdes Intervenidos', espaciosVerdes ? espaciosVerdes['ACUMULADO TOTAL'] : 0, '🌱', 'kpi-icon-green')}
+            </div>
+            <div class="col-md-6 col-lg-4">
+                ${createKpiCard('Huertas Comunitarias', huertas ? huertas['ACUMULADO TOTAL'] : 0, '🥕', 'kpi-icon-orange')}
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-12">
+                <div class="chart-container">
+                    <h5>Intervención de Espacios Verdes por Año</h5>
+                    <div id="chart-proyectos" style="position: relative; height: 350px;"></div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    animateCounter('kpi-espacios-verdes-intervenidos', espaciosVerdes ? espaciosVerdes['ACUMULADO TOTAL'] : 0);
+    animateCounter('kpi-huertas-comunitarias', huertas ? huertas['ACUMULADO TOTAL'] : 0);
+
+    if (espaciosVerdes) {
+        createBarChart(
+            'chart-proyectos',
+            ['2024', '2025', '2026 (Meta)'],
+            'Espacios Intervenidos',
+            [espaciosVerdes['ACUMULADO 2024'], espaciosVerdes['ACUMULADO 2025'], espaciosVerdes['ACUMULADO 2026']],
+            '#009A44' // Verde para proyectos ambientales
+        );
+    }
+}
+
+function renderArticulacion(container) {
+    const convenios = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('CONVENIOS'));
+    const campanas = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('CAMPAÑAS'));
+    
+    container.innerHTML = `
+        <h2 class="section-title">Articulación 📢</h2>
+        
+        <div class="section-description">
+            <p>Indicadores de alto nivel gestionados directamente por la Subsecretaría, incluyendo convenios interinstitucionales y campañas de comunicación masiva, fundamentales para la colaboración interjurisdiccional.</p>
+        </div>
+        
+        <div class="row g-4 mb-4">
+            <div class="col-md-6 col-lg-4">
+                ${createKpiCard('Convenios Firmados', convenios ? convenios['ACUMULADO TOTAL'] : 0, '🤝', 'kpi-icon-purple')}
+            </div>
+            <div class="col-md-6 col-lg-4">
+                ${createKpiCard('Campañas de Comunicación', campanas ? campanas['ACUMULADO TOTAL'] : 0, '🎤', 'kpi-icon-blue')}
+            </div>
+        </div>
+    `;
+    
+    animateCounter('kpi-convenios-firmados', convenios ? convenios['ACUMULADO TOTAL'] : 0);
+    animateCounter('kpi-campanas-de-comunicacion', campanas ? campanas['ACUMULADO TOTAL'] : 0);
+}
+
+// Funciones de utilidad
+function createKpiCard(label, value, icon, colorClass) {
+    const kpiId = 'kpi-' + label.toLowerCase().replace(/[^a-z0-9]/g, '-');
+    
+    // Inicia con el valor real para evitar el destello del '0' antes de la animación
+    const initialValue = typeof value === 'number' ? 
+        (value % 1 !== 0 ? value.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) : value.toLocaleString('es-AR'))
+        : '0';
+
+    return `
+        <div class="kpi-card">
+            <div class="card-body">
+                <div class="kpi-card-icon ${colorClass}">
+                    <span class="emoji-icon">${icon}</span>
+                </div>
+                <div class="kpi-card-content">
+                    <div class="kpi-value" id="${kpiId}">${initialValue}</div>
+                    <p class="kpi-label">${label}</p>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function animateCounter(id, endValue) {
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    let startValue = 0;
+    const duration = 1500;
+    const stepTime = 20;
+    const steps = duration / stepTime;
+    const increment = endValue / steps;
+    
+    const isFloat = endValue % 1 !== 0;
+
+    // Reiniciar a 0 solo si es necesario y luego animar
+    el.textContent = '0'; 
+
+    const timer = setInterval(() => {
+        startValue += increment;
+        if (startValue >= endValue) {
+            clearInterval(timer);
+            el.textContent = isFloat ? 
+                endValue.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) : 
+                endValue.toLocaleString('es-AR');
+        } else {
+            el.textContent = isFloat ? 
+                startValue.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) : 
+                Math.ceil(startValue).toLocaleString('es-AR');
+        }
+    }, stepTime);
+}
+
+function createBarChart(containerId, labels, dataLabel, data, color = '#02b3e4') {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    container.innerHTML = '';
+
+    const barChartEl = document.createElement('div');
+    barChartEl.classList.add('simple-bar-chart');
+    barChartEl.style.height = '300px'; 
+    barChartEl.style.alignItems = 'flex-end'; 
+    barChartEl.style.display = 'flex';
+
+    const maxValue = Math.max(...data, 1);
+
+    data.forEach((value, index) => {
+        // Contenedor principal de la barra (flex item)
+        const barContainer = document.createElement('div');
+        barContainer.style.flex = '1';
+        barContainer.style.margin = '0 10px';
+        barContainer.style.textAlign = 'center';
+        barContainer.style.display = 'flex';
+        barContainer.style.flexDirection = 'column';
+        barContainer.style.justifyContent = 'flex-end';
+        barContainer.style.position = 'relative'; // Para posicionar el valor y la etiqueta
+
+        // La barra visual
+        const bar = document.createElement('div');
+        bar.style.backgroundColor = color;
+        const heightPercent = (value / maxValue) * 90; // Usar 90% para dejar espacio para el valor
+        bar.style.height = `${heightPercent}%`;
+        bar.style.width = '100%';
+        bar.style.borderRadius = '4px 4px 0 0';
+        bar.style.transition = 'height 1.5s ease-out';
+        bar.style.position = 'relative';
+
+        // Valor sobre la barra
+        const spanValue = document.createElement('span');
+        spanValue.textContent = value.toLocaleString('es-AR');
+        spanValue.style.position = 'absolute';
+        spanValue.style.bottom = '100%';
+        spanValue.style.left = '50%';
+        spanValue.style.transform = 'translateX(-50%)';
+        spanValue.style.fontSize = '0.9rem';
+        spanValue.style.fontWeight = '600';
+        spanValue.style.color = '#333';
+        spanValue.style.marginBottom = '5px';
+        barContainer.appendChild(spanValue);
+
+        // Etiqueta (año) bajo la barra
+        const labelEl = document.createElement('div');
+        labelEl.textContent = labels[index];
+        labelEl.style.marginTop = '5px';
+        labelEl.style.fontSize = '0.9rem';
+        labelEl.style.color = '#6c757d';
+
+        barContainer.appendChild(bar);
+        barContainer.appendChild(labelEl);
+        barChartEl.appendChild(barContainer);
+    });
+
+    container.appendChild(barChartEl);
+}
+
+function initializeMap(markersData, type) {
+    const mapEl = document.getElementById('map');
+    if (!mapEl) return;
+
+    mapInstance = L.map('map').setView(SALTA_CENTER, 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(mapInstance);
+
+    // Iconos personalizados
+    const barrioIcon = L.icon({
+        iconUrl: 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#D90429" width="32px" height="32px"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>'),
+        iconSize: [32, 32],
+        iconAnchor: [16, 32],
+        popupAnchor: [0, -32]
+    });
+    
+    const puntoLimpioIcon = L.icon({
+        iconUrl: 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#009A44" width="32px" height="32px"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>'),
+        iconSize: [32, 32],
+        iconAnchor: [16, 32],
+        popupAnchor: [0, -32]
+    });
+
+    // Añadir marcadores
+    markersData.forEach(d => {
+        if (d.lat && d.lng) {
+            let popupContent = '';
+            let icon = barrioIcon;
+
+            if (type === 'barrio') {
+                popupContent = `<strong>${d['NOMBRE DEL BARRIO']}</strong><br>${d['TAREAS DESARROLLADAS']}`;
+                icon = barrioIcon;
+            } else if (type === 'punto-limpio') {
+                popupContent = `<strong>${d['NOMBRE']}</strong><br>${d['DIRECCION']}`;
+                icon = puntoLimpioIcon;
+            }
+            
+            L.marker([d.lat, d.lng], { icon: icon })
+                .addTo(mapInstance)
+                .bindPopup(popupContent);
+        }
+    });
+    
+    // Ajustar el zoom a los marcadores si hay datos
+    if (markersData.length > 0) {
+        const group = new L.featureGroup(markersData.map(d => L.marker([d.lat, d.lng])));
+        mapInstance.fitBounds(group.getBounds().pad(0.1));
+    }
+}
+
+function exportToCSV() {
+    if (!datosIndicadores.length) {
+        alert("No hay datos para exportar.");
+        return;
+    }
+
+    const headers = Object.keys(datosIndicadores[0]);
+    let csvContent = "data:text/csv;charset=utf-8,";
+    
+    csvContent += headers.join(";") + "\r\n";
+
+    datosIndicadores.forEach(row => {
+        const values = headers.map(header => {
+            let cell = row[header] === null || row[header] === undefined ? '' : row[header];
+            cell = String(cell).replace(/"/g, '""');
+            if (cell.includes(';') || cell.includes(',')) {
+                cell = `"${cell}"`;
+            }
+            return cell;
+        });
+        csvContent += values.join(";") + "\r\n";
+    });
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "reporte_gestion_ambiental.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
