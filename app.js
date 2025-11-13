@@ -19,7 +19,7 @@ const datosIndicadores = [
     {
         "INDICADOR": "NEUMATÓN",
         "AREA/DEPENDENCIA": "Dirección General de Desarrollo Sostenible",
-        "ACUMULADO TOTAL": 2072,
+        "ACUMULADO TOTAL": 2072, // Tn (Toneladas)
         "ACUMULADO 2024": 2072,
         "ACUMULADO 2025": 0,
         "ACUMULADO 2026": 0
@@ -27,7 +27,7 @@ const datosIndicadores = [
     {
         "INDICADOR": "RAEETÓN",
         "AREA/DEPENDENCIA": "Dirección General de Desarrollo Sostenible",
-        "ACUMULADO TOTAL": 95.98,
+        "ACUMULADO TOTAL": 95.98, // Tn (Toneladas)
         "ACUMULADO 2024": 95.98,
         "ACUMULADO 2025": 0,
         "ACUMULADO 2026": 0
@@ -248,7 +248,7 @@ function renderEducacionAmbiental(container) {
     `;
     
     // Animar contadores
-    animateCounter('kpi-niños-en-talleres', talleres ? talleres['ACUMULADO TOTAL'] : 0);
+    animateCounter('kpi-ninos-en-talleres', talleres ? talleres['ACUMULADO TOTAL'] : 0);
     animateCounter('kpi-alumnos-en-promesa-al-ambiente', promesa ? promesa['ACUMULADO TOTAL'] : 0);
     
     // Crear gráfico con Chart.js
@@ -298,7 +298,7 @@ function renderEconomiaCircular(container) {
     `;
     
     // Animar contadores
-    animateCounter('kpi-neumáticos-tn', neumaticos ? neumaticos['ACUMULADO TOTAL'] : 0);
+    animateCounter('kpi-neumaticos-tn', neumaticos ? neumaticos['ACUMULADO TOTAL'] : 0);
     animateCounter('kpi-raee-tn', raee ? raee['ACUMULADO TOTAL'] : 0);
     animateCounter('kpi-puntos-limpios-instalados', puntosLimpiosData ? puntosLimpiosData['ACUMULADO TOTAL'] : 0);
     
@@ -370,7 +370,7 @@ function renderDesarrolloSostenible(container) {
                 <div class="chart-container">
                     <h5>Comparativa Huertas Creadas</h5>
                     <div id="chart-huertas" style="position: relative; height: 350px;">
-                         </div>
+                        </div>
                 </div>
             </div>
         </div>
@@ -389,6 +389,10 @@ function renderDesarrolloSostenible(container) {
     }
 }
 
+// -----------------------------------------------------
+// SECCIONES SIN KPI DIRECTOS: AHORA USAN TABLAS
+// -----------------------------------------------------
+
 function renderInspecciones(container) {
     const convenios = datosIndicadores.find(d => d.INDICADOR.includes('CONVENIOS'));
     const campanas = datosIndicadores.find(d => d.INDICADOR.includes('CAMPAÑAS'));
@@ -402,11 +406,11 @@ function renderInspecciones(container) {
         
         <div class="alert alert-warning" role="alert">
             <span class="emoji-icon">⚠️</span>
-            **Indicadores: No se encontraron KPIs numéricos directos para esta dirección en los datos base.**
+            **Indicadores Directos: No se encontraron KPIs numéricos específicos para fiscalización en los datos base. Se muestran indicadores relacionados.**
         </div>
         
         <div class="chart-container mt-4">
-            <h5>Indicadores de Alto Nivel Relacionados (Articulación y Control)</h5>
+            <h5>Indicadores de Articulación y Control</h5>
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
@@ -445,11 +449,11 @@ function renderImpactoAmbiental(container) {
         
         <div class="alert alert-warning" role="alert">
             <span class="emoji-icon">⚠️</span>
-            **Indicadores: No se encontraron KPIs numéricos directos para esta dirección en los datos base.**
+            **Indicadores Directos: No se encontraron KPIs numéricos de CAAM o certificaciones en los datos base. Se muestran indicadores relacionados.**
         </div>
         
         <div class="chart-container mt-4">
-            <h5>Indicadores de Alto Nivel Relacionados (Articulación y Control)</h5>
+            <h5>Indicadores de Articulación y Control</h5>
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
@@ -488,11 +492,11 @@ function renderPatrullaAmbiental(container) {
         
         <div class="alert alert-warning" role="alert">
             <span class="emoji-icon">⚠️</span>
-            **Indicadores: No se encontraron KPIs numéricos directos para esta dirección en los datos base.**
+            **Indicadores Directos: No se encontraron KPIs numéricos directos de denuncias/actas en los datos base. Se muestran indicadores relacionados.**
         </div>
         
         <div class="chart-container mt-4">
-            <h5>Indicadores de Alto Nivel Relacionados (Articulación y Control)</h5>
+            <h5>Indicadores de Articulación y Control</h5>
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
@@ -531,9 +535,9 @@ function renderProyectosAmbientales(container) {
         
         <div class="alert alert-warning" role="alert">
             <span class="emoji-icon">⚠️</span>
-            **Indicadores: No se encontraron KPIs numéricos directos para esta dirección en los datos base.**
+            **Indicadores Directos: No se encontraron KPIs numéricos directos de espacios verdes en los datos base. Se muestran indicadores relacionados de Desarrollo y Educación.**
         </div>
-        
+
         <div class="chart-container mt-4">
             <h5>Indicadores Relacionados (Desarrollo y Educación)</h5>
             <table class="table table-striped table-hover">
@@ -583,13 +587,18 @@ function renderArticulacion(container) {
     `;
     
     animateCounter('kpi-convenios-firmados', convenios ? convenios['ACUMULADO TOTAL'] : 0);
-    animateCounter('kpi-campañas-de-comunicación', campanas ? campanas['ACUMULADO TOTAL'] : 0);
+    animateCounter('kpi-campanas-de-comunicacion', campanas ? campanas['ACUMULADO TOTAL'] : 0);
 }
 
 // Funciones de utilidad
+
+// MODIFICADA: Inicializa el valor del KPI al valor real para evitar ver "0"
 function createKpiCard(label, value, icon, colorClass) {
     const kpiId = 'kpi-' + label.toLowerCase().replace(/[^a-z0-9]/g, '-');
     
+    // Formatear el valor inicial (con coma o punto)
+    const formattedValue = (typeof value === 'number') ? value.toLocaleString('es-AR', { minimumFractionDigits: (value % 1 !== 0 ? 2 : 0), maximumFractionDigits: 2 }) : '0';
+
     return `
         <div class="kpi-card">
             <div class="card-body">
@@ -597,7 +606,7 @@ function createKpiCard(label, value, icon, colorClass) {
                     <span class="emoji-icon">${icon}</span>
                 </div>
                 <div class="kpi-card-content">
-                    <div class="kpi-value" id="${kpiId}">0</div>
+                    <div class="kpi-value" id="${kpiId}">${formattedValue}</div>
                     <p class="kpi-label">${label}</p>
                 </div>
             </div>
@@ -605,6 +614,7 @@ function createKpiCard(label, value, icon, colorClass) {
     `;
 }
 
+// Mantiene la animación desde 0 al valor final
 function animateCounter(id, endValue) {
     const el = document.getElementById(id);
     if (!el) return;
@@ -615,8 +625,10 @@ function animateCounter(id, endValue) {
     const steps = duration / stepTime;
     const increment = endValue / steps;
     
-    // Si el valor es fraccional o pequeño, lo tratamos como flotante para mostrar decimales.
-    const isFloat = endValue % 1 !== 0 || endValue < 100;
+    const isFloat = endValue % 1 !== 0 || endValue < 1000 && endValue % 1 !== 0;
+
+    // Reiniciar el valor a 0 antes de empezar la animación (solo por efecto visual)
+    el.textContent = isFloat ? '0,00' : '0'; 
 
     const timer = setInterval(() => {
         startValue += increment;
@@ -633,16 +645,15 @@ function animateCounter(id, endValue) {
     }, stepTime);
 }
 
-// Función de gráficos MEJORADA usando Chart.js
+// NUEVA FUNCIÓN usando Chart.js
 function createBarChart(containerId, labels, dataLabel, data, color = '#02b3e4') {
     const container = document.getElementById(containerId);
     if (!container) return;
 
-    // 1. Reemplazar el contenedor por un canvas para Chart.js
+    // Asegura que el contenedor es un canvas
     container.innerHTML = '<canvas id="myChart"></canvas>';
     const ctx = document.getElementById('myChart').getContext('2d');
     
-    // 2. Definir los colores para un look más institucional
     // Los colores son: 2024 (color principal), 2025 (gris/secundario), 2026 (color principal, atenuado/meta)
     const backgroundColor = [color, '#cccccc', color + '80']; 
 
@@ -703,7 +714,7 @@ function initializeMap(markersData, type) {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(mapInstance);
 
-    // Iconos personalizados
+    // Iconos personalizados (usando SVG en base64 para evitar dependencia de archivos externos)
     const barrioIcon = L.icon({
         iconUrl: 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#D90429" width="32px" height="32px"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>'),
         iconSize: [32, 32],
@@ -740,9 +751,8 @@ function initializeMap(markersData, type) {
     
     // Ajustar el zoom a los marcadores si hay datos
     if (markersData.length > 0) {
-        // Se añade un pequeño buffer para que el zoom no sea muy justo
         const group = new L.featureGroup(markersData.map(d => L.marker([d.lat, d.lng])));
-        mapInstance.fitBounds(group.getBounds().pad(0.1)); 
+        mapInstance.fitBounds(group.getBounds().pad(0.1));
     }
 }
 
