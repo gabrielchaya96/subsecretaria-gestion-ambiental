@@ -198,11 +198,11 @@ body {
 
         /* ----- Mapa Leaflet ----- */
         #map {
-            height: 450px;
-            width: 100%;
-            border-radius: 0.5rem;
-            z-index: 1;
-        }
+    height: 450px;
+    width: 100%;
+    border-radius: 0.5rem;
+    z-index: 1;
+}
 
         /* ----- Descripción de la Sección ----- */
         .section-description {
