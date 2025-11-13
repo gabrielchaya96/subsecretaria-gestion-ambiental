@@ -649,3 +649,92 @@ function exportToCSV() {
     link.click();
     document.body.removeChild(link);
 }
+
+// --- FUNCIONES DE GRÁFICOS (FALTANTES) ---
+
+// Función de gráfico de barras para un solo set de datos (Anual)
+function createBarChart(containerId, labels, dataLabel, data, color = '#02b3e4') {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    container.innerHTML = '';
+
+    const barChartEl = document.createElement('div');
+    barChartEl.classList.add('simple-bar-chart');
+
+    // Asegurar que solo se comparen números válidos para el máximo
+    const dataArray = data.map(Number).filter(n => !isNaN(n));
+    const maxValue = Math.max(...dataArray, 1);
+    const dataDisplay = data; 
+
+    dataArray.forEach((value, index) => {
+        const bar = document.createElement('div');
+        bar.classList.add('bar');
+        bar.style.backgroundColor = color;
+        const heightPercent = (value / maxValue) * 90; // 90% para dejar espacio para la etiqueta superior
+        bar.style.height = `${heightPercent}%`;
+
+        const spanValue = document.createElement('span');
+        // Mostrar el valor original (formateado) o '0' si no es válido
+        const formattedValue = (dataDisplay[index] !== undefined && dataDisplay[index] !== null) 
+            ? Number(dataDisplay[index]).toLocaleString('es-AR') 
+            : '0';
+        spanValue.textContent = formattedValue;
+        bar.appendChild(spanValue);
+
+        const labelEl = document.createElement('div');
+        labelEl.classList.add('label');
+        labelEl.textContent = labels[index];
+        bar.appendChild(labelEl);
+
+        barChartEl.appendChild(bar);
+    });
+
+    container.appendChild(barChartEl);
+}
+
+// Función de gráfico de barras para múltiples sets de datos (Comparativa)
+function createCustomBarChart(containerId, data) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    container.innerHTML = '';
+
+    const barChartEl = document.createElement('div');
+    barChartEl.classList.add('simple-bar-chart');
+    barChartEl.style.justifyContent = 'space-around';
+    barChartEl.style.alignItems = 'flex-end';
+    
+    const dataValues = data.map(d => Number(d.value)).filter(n => !isNaN(n));
+    const maxValue = Math.max(...dataValues, 1);
+
+    data.forEach(item => {
+        const value = Number(item.value);
+        if (isNaN(value)) return;
+
+        const bar = document.createElement('div');
+        bar.classList.add('bar');
+        bar.style.backgroundColor = item.color;
+        const heightPercent = (value / maxValue) * 90; // 90% para dejar espacio para la etiqueta superior
+        bar.style.height = `${heightPercent}%`;
+        bar.style.width = '100px'; // Ancho fijo para las barras
+
+        const spanValue = document.createElement('span');
+        spanValue.textContent = value.toLocaleString('es-AR');
+        bar.appendChild(spanValue);
+
+        const labelEl = document.createElement('div');
+        labelEl.classList.add('label');
+        labelEl.textContent = item.label;
+        bar.appendChild(labelEl);
+
+        barChartEl.appendChild(bar);
+    });
+
+    container.appendChild(barChartEl);
+}
+
+// // La función initializeMap debe ir después de estas
+// function initializeMap(...) {
+//   // ... el resto de tu código
+// }
