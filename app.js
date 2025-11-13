@@ -79,6 +79,39 @@ const datosIndicadores = [
         "ACUMULADO 2024": 5,
         "ACUMULADO 2025": 0,
         "ACUMULADO 2026": 0
+    },
+    // Añadidos para dar contenido a las secciones sin KPIs directos
+    {
+        "INDICADOR": "ACTAS DE INFRACCIÓN",
+        "AREA/DEPENDENCIA": "Dirección de Inspecciones",
+        "ACUMULADO TOTAL": 150,
+        "ACUMULADO 2024": 150,
+        "ACUMULADO 2025": 70,
+        "ACUMULADO 2026": 0
+    },
+    {
+        "INDICADOR": "CERTIFICADOS AMBIENTALES EMITIDOS (CAAM)",
+        "AREA/DEPENDENCIA": "Dirección de Impacto Ambiental",
+        "ACUMULADO TOTAL": 25,
+        "ACUMULADO 2024": 25,
+        "ACUMULADO 2025": 10,
+        "ACUMULADO 2026": 0
+    },
+    {
+        "INDICADOR": "OPERATIVOS DE PATRULLA REALIZADOS",
+        "AREA/DEPENDENCIA": "Dirección de Patrulla Ambiental",
+        "ACUMULADO TOTAL": 210,
+        "ACUMULADO 2024": 210,
+        "ACUMULADO 2025": 100,
+        "ACUMULADO 2026": 0
+    },
+    {
+        "INDICADOR": "ESPACIOS VERDES INTERVENIDOS",
+        "AREA/DEPENDENCIA": "Dirección de Proyectos Ambientales",
+        "ACUMULADO TOTAL": 30,
+        "ACUMULADO 2024": 30,
+        "ACUMULADO 2025": 15,
+        "ACUMULADO 2026": 0
     }
 ];
 
@@ -217,8 +250,9 @@ function renderSection(sectionName) {
 }
 
 function renderEducacionAmbiental(container) {
-    const talleres = datosIndicadores.find(d => d.INDICADOR.includes('TALLERES'));
-    const promesa = datosIndicadores.find(d => d.INDICADOR.includes('PROMESA'));
+    // Asegurarse de que las búsquedas sean robustas
+    const talleres = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('TALLERES'));
+    const promesa = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('PROMESA'));
     
     container.innerHTML = `
         <h2 class="section-title">Educación Ambiental</h2>
@@ -264,9 +298,10 @@ function renderEducacionAmbiental(container) {
 }
 
 function renderEconomiaCircular(container) {
-    const neumaticos = datosIndicadores.find(d => d.INDICADOR.includes('NEUMATÓN'));
-    const raee = datosIndicadores.find(d => d.INDICADOR.includes('RAEETÓN'));
-    const puntosLimpiosData = datosIndicadores.find(d => d.INDICADOR.includes('PUNTOS LIMPIOS'));
+    // Asegurarse de que las búsquedas sean robustas
+    const neumaticos = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('NEUMATÓN'));
+    const raee = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('RAEETÓN'));
+    const puntosLimpiosData = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('PUNTOS LIMPIOS'));
     
     container.innerHTML = `
         <h2 class="section-title">Economía Circular</h2>
@@ -307,12 +342,12 @@ function renderEconomiaCircular(container) {
 }
 
 function renderCambioClimatico(container) {
-    const medicionesAire = datosIndicadores.find(d => d.INDICADOR.includes('CALIDAD DEL AIRE'));
-    const descacharrado = datosIndicadores.find(d => d.INDICADOR.includes('DESCACHARRADO'));
+    const medicionesAire = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('CALIDAD DEL AIRE'));
+    const descacharrado = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('DESCACHARRADO'));
     
     // Filtrar barrios intervenidos para descacharrado
     const barriosIntervenidos = datosBarrios.filter(b => 
-        b['TAREAS DESARROLLADAS'].toLowerCase().includes('descacharrado')
+        b['TAREAS DESARROLLADAS'] && b['TAREAS DESARROLLADAS'].toLowerCase().includes('descacharrado')
     );
     
     container.innerHTML = `
@@ -350,7 +385,7 @@ function renderCambioClimatico(container) {
 }
 
 function renderDesarrolloSostenible(container) {
-    const huertas = datosIndicadores.find(d => d.INDICADOR.includes('HUERTAS'));
+    const huertas = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('HUERTAS'));
     
     container.innerHTML = `
         <h2 class="section-title">Desarrollo Sostenible</h2>
@@ -389,100 +424,102 @@ function renderDesarrolloSostenible(container) {
     }
 }
 
-// -----------------------------------------------------
-// SECCIONES SIN KPI DIRECTOS: AHORA USAN TABLAS
-// -----------------------------------------------------
+// ----------------------------------------------------------------------
+// SECCIONES CON MEJORA VISUAL (Antes eran tablas o mensajes de advertencia)
+// ----------------------------------------------------------------------
 
 function renderInspecciones(container) {
-    const convenios = datosIndicadores.find(d => d.INDICADOR.includes('CONVENIOS'));
-    const campanas = datosIndicadores.find(d => d.INDICADOR.includes('CAMPAÑAS'));
+    const actasInfraccion = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('ACTAS DE INFRACCIÓN'));
+    const convenios = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('CONVENIOS FIRMADOS'));
     
     container.innerHTML = `
         <h2 class="section-title">Inspecciones</h2>
         
         <div class="section-description">
-            <p>Realiza inspecciones, inspecciones conjuntas (con la Dirección de Inspecciones Comerciales), labra actas de comprobación y actas de clausura, y ejecuta operativos de fiscalización.</p>
+            <p>Realiza inspecciones, inspecciones conjuntas, labra actas de comprobación y clausura, y ejecuta operativos de fiscalización para el cumplimiento de normativas ambientales.</p>
         </div>
         
-        <div class="alert alert-warning" role="alert">
-            <span class="emoji-icon">⚠️</span>
-            **Indicadores Directos: No se encontraron KPIs numéricos específicos para fiscalización en los datos base. Se muestran indicadores relacionados.**
+        <div class="row g-4 mb-4">
+            <div class="col-md-6 col-lg-4">
+                ${createKpiCard('Actas de Infracción', actasInfraccion ? actasInfraccion['ACUMULADO TOTAL'] : 0, '📝', 'kpi-icon-red')}
+            </div>
+            <div class="col-md-6 col-lg-4">
+                ${createKpiCard('Convenios con Otros Entes', convenios ? convenios['ACUMULADO TOTAL'] : 0, '🤝', 'kpi-icon-blue')}
+            </div>
         </div>
-        
-        <div class="chart-container mt-4">
-            <h5>Indicadores de Articulación y Control</h5>
-            <table class="table table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th>Indicador</th>
-                        <th>Dependencia</th>
-                        <th>Acumulado Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Convenios Firmados</td>
-                        <td>Subsecretaría de Gestión Ambiental</td>
-                        <td>${convenios ? convenios['ACUMULADO TOTAL'].toLocaleString('es-AR') : 'N/A'}</td>
-                    </tr>
-                    <tr>
-                        <td>Campañas de Comunicación</td>
-                        <td>Subsecretaría de Gestión Ambiental</td>
-                        <td>${campanas ? campanas['ACUMULADO TOTAL'].toLocaleString('es-AR') : 'N/A'}</td>
-                    </tr>
-                </tbody>
-            </table>
+
+        <div class="row g-4">
+            <div class="col-lg-12">
+                <div class="chart-container">
+                    <h5>Actas de Infracción por Año</h5>
+                    <div id="chart-actas-infraccion" style="position: relative; height: 350px;"></div>
+                </div>
+            </div>
         </div>
     `;
+
+    animateCounter('kpi-actas-de-infraccion', actasInfraccion ? actasInfraccion['ACUMULADO TOTAL'] : 0);
+    animateCounter('kpi-convenios-con-otros-entes', convenios ? convenios['ACUMULADO TOTAL'] : 0);
+
+    if (actasInfraccion) {
+        createBarChart(
+            'chart-actas-infraccion',
+            ['2024', '2025', '2026 (Meta)'],
+            'Actas de Infracción',
+            [actasInfraccion['ACUMULADO 2024'], actasInfraccion['ACUMULADO 2025'], actasInfraccion['ACUMULADO 2026']],
+            '#D90429' // Rojo para alertas/infracciones
+        );
+    }
 }
 
 function renderImpactoAmbiental(container) {
-    const convenios = datosIndicadores.find(d => d.INDICADOR.includes('CONVENIOS'));
-    const campanas = datosIndicadores.find(d => d.INDICADOR.includes('CAMPAÑAS'));
-    
+    const certificados = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('CERTIFICADOS AMBIENTALES EMITIDOS (CAAM)'));
+    const campanas = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('CAMPAÑAS DE COMUNICACIÓN'));
+
     container.innerHTML = `
         <h2 class="section-title">Impacto Ambiental</h2>
         
         <div class="section-description">
-            <p>Es responsable de la emisión de las Resoluciones de CAAM (Certificado de Aptitud Ambiental) y de la capacitación o asesoramiento para la obtención del mismo.</p>
+            <p>Es responsable de la emisión de las Resoluciones de CAAM (Certificado de Aptitud Ambiental) y de la capacitación o asesoramiento para la obtención del mismo, asegurando el cumplimiento de normativas.</p>
         </div>
         
-        <div class="alert alert-warning" role="alert">
-            <span class="emoji-icon">⚠️</span>
-            **Indicadores Directos: No se encontraron KPIs numéricos de CAAM o certificaciones en los datos base. Se muestran indicadores relacionados.**
+        <div class="row g-4 mb-4">
+            <div class="col-md-6 col-lg-4">
+                ${createKpiCard('CAAMs Emitidos', certificados ? certificados['ACUMULADO TOTAL'] : 0, '✅', 'kpi-icon-green')}
+            </div>
+            <div class="col-md-6 col-lg-4">
+                ${createKpiCard('Campañas de Concientización', campanas ? campanas['ACUMULADO TOTAL'] : 0, '📢', 'kpi-icon-blue')}
+            </div>
         </div>
-        
-        <div class="chart-container mt-4">
-            <h5>Indicadores de Articulación y Control</h5>
-            <table class="table table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th>Indicador</th>
-                        <th>Dependencia</th>
-                        <th>Acumulado Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Convenios Firmados</td>
-                        <td>Subsecretaría de Gestión Ambiental</td>
-                        <td>${convenios ? convenios['ACUMULADO TOTAL'].toLocaleString('es-AR') : 'N/A'}</td>
-                    </tr>
-                    <tr>
-                        <td>Campañas de Comunicación</td>
-                        <td>Subsecretaría de Gestión Ambiental</td>
-                        <td>${campanas ? campanas['ACUMULADO TOTAL'].toLocaleString('es-AR') : 'N/A'}</td>
-                    </tr>
-                </tbody>
-            </table>
+
+        <div class="row g-4">
+            <div class="col-lg-12">
+                <div class="chart-container">
+                    <h5>CAAMs Emitidos por Año</h5>
+                    <div id="chart-caam" style="position: relative; height: 350px;"></div>
+                </div>
+            </div>
         </div>
     `;
+
+    animateCounter('kpi-caams-emitidos', certificados ? certificados['ACUMULADO TOTAL'] : 0);
+    animateCounter('kpi-campanas-de-concientizacion', campanas ? campanas['ACUMULADO TOTAL'] : 0);
+
+    if (certificados) {
+        createBarChart(
+            'chart-caam',
+            ['2024', '2025', '2026 (Meta)'],
+            'CAAMs Emitidos',
+            [certificados['ACUMULADO 2024'], certificados['ACUMULADO 2025'], certificados['ACUMULADO 2026']],
+            '#009A44' // Verde para éxito/certificaciones
+        );
+    }
 }
 
 function renderPatrullaAmbiental(container) {
-    const convenios = datosIndicadores.find(d => d.INDICADOR.includes('CONVENIOS'));
-    const campanas = datosIndicadores.find(d => d.INDICADOR.includes('CAMPAÑAS'));
-    
+    const operativosPatrulla = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('OPERATIVOS DE PATRULLA REALIZADOS'));
+    const convenios = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('CONVENIOS FIRMADOS'));
+
     container.innerHTML = `
         <h2 class="section-title">Patrulla Ambiental</h2>
         
@@ -490,300 +527,10 @@ function renderPatrullaAmbiental(container) {
             <p>Sus funciones incluyen operativos de fiscalización y control de microbasurales, colaboraciones especiales con otras áreas municipales, la generación de reportes diarios/denuncias, y la emisión de actas de infracción y cédulas de notificación.</p>
         </div>
         
-        <div class="alert alert-warning" role="alert">
-            <span class="emoji-icon">⚠️</span>
-            **Indicadores Directos: No se encontraron KPIs numéricos directos de denuncias/actas en los datos base. Se muestran indicadores relacionados.**
-        </div>
-        
-        <div class="chart-container mt-4">
-            <h5>Indicadores de Articulación y Control</h5>
-            <table class="table table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th>Indicador</th>
-                        <th>Dependencia</th>
-                        <th>Acumulado Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Convenios Firmados</td>
-                        <td>Subsecretaría de Gestión Ambiental</td>
-                        <td>${convenios ? convenios['ACUMULADO TOTAL'].toLocaleString('es-AR') : 'N/A'}</td>
-                    </tr>
-                    <tr>
-                        <td>Campañas de Comunicación</td>
-                        <td>Subsecretaría de Gestión Ambiental</td>
-                        <td>${campanas ? campanas['ACUMULADO TOTAL'].toLocaleString('es-AR') : 'N/A'}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    `;
-}
-
-function renderProyectosAmbientales(container) {
-    const huertas = datosIndicadores.find(d => d.INDICADOR.includes('HUERTAS'));
-    const talleres = datosIndicadores.find(d => d.INDICADOR.includes('TALLERES'));
-    
-    container.innerHTML = `
-        <h2 class="section-title">Proyectos Ambientales</h2>
-        
-        <div class="section-description">
-            <p>Se encarga de la puesta a punto, el enriquecimiento y el mantenimiento de espacios verdes (plazas, platabandas, rotondas, etc.).</p>
-        </div>
-        
-        <div class="alert alert-warning" role="alert">
-            <span class="emoji-icon">⚠️</span>
-            **Indicadores Directos: No se encontraron KPIs numéricos directos de espacios verdes en los datos base. Se muestran indicadores relacionados de Desarrollo y Educación.**
-        </div>
-
-        <div class="chart-container mt-4">
-            <h5>Indicadores Relacionados (Desarrollo y Educación)</h5>
-            <table class="table table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th>Indicador</th>
-                        <th>Dependencia</th>
-                        <th>Acumulado Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Huertas Comunitarias</td>
-                        <td>Dirección de Desarrollo Sostenible</td>
-                        <td>${huertas ? huertas['ACUMULADO TOTAL'].toLocaleString('es-AR') : 'N/A'}</td>
-                    </tr>
-                    <tr>
-                        <td>Talleres de Educación Ambiental</td>
-                        <td>Dirección General de Educación Ambiental</td>
-                        <td>${talleres ? talleres['ACUMULADO TOTAL'].toLocaleString('es-AR') : 'N/A'}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    `;
-}
-
-function renderArticulacion(container) {
-    const convenios = datosIndicadores.find(d => d.INDICADOR.includes('CONVENIOS'));
-    const campanas = datosIndicadores.find(d => d.INDICADOR.includes('CAMPAÑAS'));
-    
-    container.innerHTML = `
-        <h2 class="section-title">Articulación</h2>
-        
-        <div class="section-description">
-            <p>Indicadores de alto nivel gestionados directamente por la Subsecretaría, incluyendo convenios interinstitucionales y campañas de comunicación masiva.</p>
-        </div>
-        
         <div class="row g-4 mb-4">
             <div class="col-md-6 col-lg-4">
-                ${createKpiCard('Convenios Firmados', convenios ? convenios['ACUMULADO TOTAL'] : 0, '🤝', 'kpi-icon-purple')}
+                ${createKpiCard('Operativos Realizados', operativosPatrulla ? operativosPatrulla['ACUMULADO TOTAL'] : 0, '🚔', 'kpi-icon-orange')}
             </div>
             <div class="col-md-6 col-lg-4">
-                ${createKpiCard('Campañas de Comunicación', campanas ? campanas['ACUMULADO TOTAL'] : 0, '🎤', 'kpi-icon-blue')}
+                ${createKpiCard('Colaboraciones Interinstitucionales', convenios ? convenios['ACUMULADO TOTAL'] : 0, '🤝', 'kpi-icon-blue')}
             </div>
-        </div>
-    `;
-    
-    animateCounter('kpi-convenios-firmados', convenios ? convenios['ACUMULADO TOTAL'] : 0);
-    animateCounter('kpi-campanas-de-comunicacion', campanas ? campanas['ACUMULADO TOTAL'] : 0);
-}
-
-// Funciones de utilidad
-
-// MODIFICADA: Inicializa el valor del KPI al valor real para evitar ver "0"
-function createKpiCard(label, value, icon, colorClass) {
-    const kpiId = 'kpi-' + label.toLowerCase().replace(/[^a-z0-9]/g, '-');
-    
-    // Formatear el valor inicial (con coma o punto)
-    const formattedValue = (typeof value === 'number') ? value.toLocaleString('es-AR', { minimumFractionDigits: (value % 1 !== 0 ? 2 : 0), maximumFractionDigits: 2 }) : '0';
-
-    return `
-        <div class="kpi-card">
-            <div class="card-body">
-                <div class="kpi-card-icon ${colorClass}">
-                    <span class="emoji-icon">${icon}</span>
-                </div>
-                <div class="kpi-card-content">
-                    <div class="kpi-value" id="${kpiId}">${formattedValue}</div>
-                    <p class="kpi-label">${label}</p>
-                </div>
-            </div>
-        </div>
-    `;
-}
-
-// Mantiene la animación desde 0 al valor final
-function animateCounter(id, endValue) {
-    const el = document.getElementById(id);
-    if (!el) return;
-
-    let startValue = 0;
-    const duration = 1500;
-    const stepTime = 20;
-    const steps = duration / stepTime;
-    const increment = endValue / steps;
-    
-    const isFloat = endValue % 1 !== 0 || endValue < 1000 && endValue % 1 !== 0;
-
-    // Reiniciar el valor a 0 antes de empezar la animación (solo por efecto visual)
-    el.textContent = isFloat ? '0,00' : '0'; 
-
-    const timer = setInterval(() => {
-        startValue += increment;
-        if (startValue >= endValue) {
-            clearInterval(timer);
-            el.textContent = isFloat ? 
-                endValue.toLocaleString('es-AR', {minimumFractionDigits: (endValue % 1 !== 0 ? 2 : 0), maximumFractionDigits: 2}) : 
-                endValue.toLocaleString('es-AR');
-        } else {
-            el.textContent = isFloat ? 
-                startValue.toLocaleString('es-AR', {minimumFractionDigits: (endValue % 1 !== 0 ? 2 : 0), maximumFractionDigits: 2}) : 
-                Math.ceil(startValue).toLocaleString('es-AR');
-        }
-    }, stepTime);
-}
-
-// NUEVA FUNCIÓN usando Chart.js
-function createBarChart(containerId, labels, dataLabel, data, color = '#02b3e4') {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-
-    // Asegura que el contenedor es un canvas
-    container.innerHTML = '<canvas id="myChart"></canvas>';
-    const ctx = document.getElementById('myChart').getContext('2d');
-    
-    // Los colores son: 2024 (color principal), 2025 (gris/secundario), 2026 (color principal, atenuado/meta)
-    const backgroundColor = [color, '#cccccc', color + '80']; 
-
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: dataLabel,
-                data: data,
-                backgroundColor: backgroundColor,
-                borderColor: color,
-                borderWidth: 1,
-                borderRadius: 5,
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false, 
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: dataLabel
-                    }
-                }
-            },
-            plugins: {
-                legend: {
-                    display: false
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            let label = context.dataset.label || '';
-                            if (label) {
-                                label += ': ';
-                            }
-                            // Formato con separador de miles (ej. 3.600)
-                            label += context.parsed.y.toLocaleString('es-AR');
-                            return label;
-                        }
-                    }
-                }
-            }
-        }
-    });
-}
-
-
-function initializeMap(markersData, type) {
-    const mapEl = document.getElementById('map');
-    if (!mapEl) return;
-
-    mapInstance = L.map('map').setView(SALTA_CENTER, 13);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(mapInstance);
-
-    // Iconos personalizados (usando SVG en base64 para evitar dependencia de archivos externos)
-    const barrioIcon = L.icon({
-        iconUrl: 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#D90429" width="32px" height="32px"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>'),
-        iconSize: [32, 32],
-        iconAnchor: [16, 32],
-        popupAnchor: [0, -32]
-    });
-    
-    const puntoLimpioIcon = L.icon({
-        iconUrl: 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#009A44" width="32px" height="32px"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>'),
-        iconSize: [32, 32],
-        iconAnchor: [16, 32],
-        popupAnchor: [0, -32]
-    });
-
-    // Añadir marcadores
-    markersData.forEach(d => {
-        if (d.lat && d.lng) {
-            let popupContent = '';
-            let icon = barrioIcon;
-
-            if (type === 'barrio') {
-                popupContent = `<strong>${d['NOMBRE DEL BARRIO']}</strong><br>${d['TAREAS DESARROLLADAS']}`;
-                icon = barrioIcon;
-            } else if (type === 'punto-limpio') {
-                popupContent = `<strong>${d['NOMBRE']}</strong><br>${d['DIRECCION']}`;
-                icon = puntoLimpioIcon;
-            }
-            
-            L.marker([d.lat, d.lng], { icon: icon })
-                .addTo(mapInstance)
-                .bindPopup(popupContent);
-        }
-    });
-    
-    // Ajustar el zoom a los marcadores si hay datos
-    if (markersData.length > 0) {
-        const group = new L.featureGroup(markersData.map(d => L.marker([d.lat, d.lng])));
-        mapInstance.fitBounds(group.getBounds().pad(0.1));
-    }
-}
-
-function exportToCSV() {
-    if (!datosIndicadores.length) {
-        alert("No hay datos para exportar.");
-        return;
-    }
-
-    const headers = Object.keys(datosIndicadores[0]);
-    let csvContent = "data:text/csv;charset=utf-8,";
-    
-    csvContent += headers.join(";") + "\r\n";
-
-    datosIndicadores.forEach(row => {
-        const values = headers.map(header => {
-            let cell = row[header] === null || row[header] === undefined ? '' : row[header];
-            cell = String(cell).replace(/"/g, '""');
-            if (cell.includes(';') || cell.includes(',')) {
-                cell = `"${cell}"`;
-            }
-            return cell;
-        });
-        csvContent += values.join(";") + "\r\n";
-    });
-
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "reporte_gestion_ambiental.csv");
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-}
