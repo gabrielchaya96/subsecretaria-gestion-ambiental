@@ -19,7 +19,7 @@ const datosIndicadores = [
     {
         "INDICADOR": "NEUMATÓN",
         "AREA/DEPENDENCIA": "Dirección General de Desarrollo Sostenible",
-        "ACUMULADO TOTAL": 2072, // Tn (Toneladas) - Este valor se perdía en el contador anterior
+        "ACUMULADO TOTAL": 2072,
         "ACUMULADO 2024": 2072,
         "ACUMULADO 2025": 0,
         "ACUMULADO 2026": 0
@@ -27,7 +27,7 @@ const datosIndicadores = [
     {
         "INDICADOR": "RAEETÓN",
         "AREA/DEPENDENCIA": "Dirección General de Desarrollo Sostenible",
-        "ACUMULADO TOTAL": 95.98, // Tn (Toneladas)
+        "ACUMULADO TOTAL": 95.98,
         "ACUMULADO 2024": 95.98,
         "ACUMULADO 2025": 0,
         "ACUMULADO 2026": 0
@@ -78,55 +78,6 @@ const datosIndicadores = [
         "ACUMULADO TOTAL": 5,
         "ACUMULADO 2024": 5,
         "ACUMULADO 2025": 0,
-        "ACUMULADO 2026": 0
-    },
-    // Añadidos indicadores para Inspecciones, Impacto, Patrulla y Proyectos
-    {
-        "INDICADOR": "ACTAS DE INFRACCIÓN LABRADAS",
-        "AREA/DEPENDENCIA": "Dirección de Inspecciones",
-        "ACUMULADO TOTAL": 150,
-        "ACUMULADO 2024": 150,
-        "ACUMULADO 2025": 70,
-        "ACUMULADO 2026": 0
-    },
-    {
-        "INDICADOR": "ACTAS DE CLAUSURA",
-        "AREA/DEPENDENCIA": "Dirección de Inspecciones",
-        "ACUMULADO TOTAL": 8,
-        "ACUMULADO 2024": 8,
-        "ACUMULADO 2025": 5,
-        "ACUMULADO 2026": 0
-    },
-    {
-        "INDICADOR": "CAAMS EMITIDOS",
-        "AREA/DEPENDENCIA": "Dirección de Impacto Ambiental",
-        "ACUMULADO TOTAL": 35,
-        "ACUMULADO 2024": 35,
-        "ACUMULADO 2025": 20,
-        "ACUMULADO 2026": 0
-    },
-    {
-        "INDICADOR": "OPERATIVOS DE PATRULLA",
-        "AREA/DEPENDENCIA": "Dirección de Patrulla Ambiental",
-        "ACUMULADO TOTAL": 210,
-        "ACUMULADO 2024": 210,
-        "ACUMULADO 2025": 100,
-        "ACUMULADO 2026": 0
-    },
-    {
-        "INDICADOR": "DENUNCIAS AMBIENTALES ATENDIDAS",
-        "AREA/DEPENDENCIA": "Dirección de Patrulla Ambiental",
-        "ACUMULADO TOTAL": 120,
-        "ACUMULADO 2024": 120,
-        "ACUMULADO 2025": 50,
-        "ACUMULADO 2026": 0
-    },
-    {
-        "INDICADOR": "ESPACIOS VERDES INTERVENIDOS",
-        "AREA/DEPENDENCIA": "Dirección de Proyectos Ambientales",
-        "ACUMULADO TOTAL": 30,
-        "ACUMULADO 2024": 30,
-        "ACUMULADO 2025": 15,
         "ACUMULADO 2026": 0
     }
 ];
@@ -265,10 +216,9 @@ function renderSection(sectionName) {
     }
 }
 
-// CORRECCIÓN: Se agrega la verificación 'd.INDICADOR &&' para estabilidad
 function renderEducacionAmbiental(container) {
-    const talleres = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('TALLERES'));
-    const promesa = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('PROMESA'));
+    const talleres = datosIndicadores.find(d => d.INDICADOR.includes('TALLERES'));
+    const promesa = datosIndicadores.find(d => d.INDICADOR.includes('PROMESA'));
     
     container.innerHTML = `
         <h2 class="section-title">Educación Ambiental</h2>
@@ -299,7 +249,7 @@ function renderEducacionAmbiental(container) {
     `;
     
     // Animar contadores
-    animateCounter('kpi-niños-en-talleres', talleres ? talleres['ACUMULADO TOTAL'] : 0);
+    animateCounter('kpi-ninos-en-talleres', talleres ? talleres['ACUMULADO TOTAL'] : 0);
     animateCounter('kpi-alumnos-en-promesa-al-ambiente', promesa ? promesa['ACUMULADO TOTAL'] : 0);
     
     // Crear gráfico
@@ -314,11 +264,10 @@ function renderEducacionAmbiental(container) {
     }
 }
 
-// CORRECCIÓN: Se agrega la verificación 'd.INDICADOR &&'
 function renderEconomiaCircular(container) {
-    const neumaticos = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('NEUMATÓN'));
-    const raee = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('RAEETÓN'));
-    const puntosLimpiosData = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('PUNTOS LIMPIOS'));
+    const neumaticos = datosIndicadores.find(d => d.INDICADOR.includes('NEUMATÓN'));
+    const raee = datosIndicadores.find(d => d.INDICADOR.includes('RAEETÓN'));
+    const puntosLimpiosData = datosIndicadores.find(d => d.INDICADOR.includes('PUNTOS LIMPIOS'));
     
     container.innerHTML = `
         <h2 class="section-title">Economía Circular</h2>
@@ -349,8 +298,8 @@ function renderEconomiaCircular(container) {
         </div>
     `;
     
-    // CORRECCIÓN: Se corrigen los IDs de animación para que coincidan con la función createKpiCard
-    animateCounter('kpi-neumáticos-tn', neumaticos ? neumaticos['ACUMULADO TOTAL'] : 0);
+    // Animar contadores
+    animateCounter('kpi-neumaticos-tn', neumaticos ? neumaticos['ACUMULADO TOTAL'] : 0);
     animateCounter('kpi-raee-tn', raee ? raee['ACUMULADO TOTAL'] : 0);
     animateCounter('kpi-puntos-limpios-instalados', puntosLimpiosData ? puntosLimpiosData['ACUMULADO TOTAL'] : 0);
     
@@ -358,13 +307,13 @@ function renderEconomiaCircular(container) {
     initializeMap(puntosLimpios, 'punto-limpio');
 }
 
-// CORRECCIÓN: Se agrega la verificación 'd.INDICADOR &&'
 function renderCambioClimatico(container) {
-    const medicionesAire = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('CALIDAD DEL AIRE'));
+    const medicionesAire = datosIndicadores.find(d => d.INDICADOR.includes('CALIDAD DEL AIRE'));
+    const descacharrado = datosIndicadores.find(d => d.INDICADOR.includes('DESCACHARRADO'));
     
     // Filtrar barrios intervenidos para descacharrado
     const barriosIntervenidos = datosBarrios.filter(b => 
-        b['TAREAS DESARROLLADAS'] && b['TAREAS DESARROLLADAS'].toLowerCase().includes('descacharrado')
+        b['TAREAS DESARROLLADAS'].toLowerCase().includes('descacharrado')
     );
     
     container.innerHTML = `
@@ -401,9 +350,8 @@ function renderCambioClimatico(container) {
     initializeMap(barriosIntervenidos, 'barrio');
 }
 
-// CORRECCIÓN: Se agrega la verificación 'd.INDICADOR &&'
 function renderDesarrolloSostenible(container) {
-    const huertas = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('HUERTAS'));
+    const huertas = datosIndicadores.find(d => d.INDICADOR.includes('HUERTAS'));
     
     container.innerHTML = `
         <h2 class="section-title">Desarrollo Sostenible</h2>
@@ -443,11 +391,7 @@ function renderDesarrolloSostenible(container) {
     }
 }
 
-// FUNCIÓN MEJORADA: Usa datos de Inspecciones y la tabla de relacionados
 function renderInspecciones(container) {
-    const actasInfraccion = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('INFRACCIÓN LABRADAS'));
-    const actasClausura = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('ACTAS DE CLAUSURA'));
-
     container.innerHTML = `
         <h2 class="section-title">Inspecciones</h2>
         
@@ -455,47 +399,14 @@ function renderInspecciones(container) {
             <p>Realiza inspecciones, inspecciones conjuntas (con la Dirección de Inspecciones Comerciales), labra actas de comprobación y actas de clausura, y ejecuta operativos de fiscalización.</p>
         </div>
         
-        <div class="row g-4 mb-4">
-            <div class="col-md-6 col-lg-4">
-                ${createKpiCard('Actas de Infracción', actasInfraccion ? actasInfraccion['ACUMULADO TOTAL'] : 0, '📝', 'kpi-icon-red')}
-            </div>
-            <div class="col-md-6 col-lg-4">
-                ${createKpiCard('Actas de Clausura', actasClausura ? actasClausura['ACUMULADO TOTAL'] : 0, '🚫', 'kpi-icon-red')}
-            </div>
+        <div class="alert alert-info" role="alert">
+            <span class="emoji-icon">ℹ️</span>
+            No hay indicadores numéricos (KPIs) disponibles en la hoja de datos para esta Dirección.
         </div>
-
-        <div class="row g-4">
-            <div class="col-lg-12">
-                <div class="chart-container">
-                    <h5>Histórico de Actas de Infracción</h5>
-                    <div class="chart-wrapper" style="position: relative; height: 350px;">
-                        <div id="chart-infracciones"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        ${createRelatedIndicatorsTable('Indicadores de la Dirección de Inspecciones', 'Dirección de Inspecciones')}
     `;
-
-    animateCounter('kpi-actas-de-infracción', actasInfraccion ? actasInfraccion['ACUMULADO TOTAL'] : 0);
-    animateCounter('kpi-actas-de-clausura', actasClausura ? actasClausura['ACUMULADO TOTAL'] : 0);
-
-    if (actasInfraccion) {
-        createBarChart(
-            'chart-infracciones',
-            ['2024', '2025 (Meta)'],
-            'Actas Labradas',
-            [actasInfraccion['ACUMULADO 2024'], actasInfraccion['ACUMULADO 2025']],
-            '#d90429'
-        );
-    }
 }
 
-// FUNCIÓN MEJORADA: Usa datos de CAAMS y tabla de relacionados
 function renderImpactoAmbiental(container) {
-    const caams = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('CAAMS EMITIDOS'));
-
     container.innerHTML = `
         <h2 class="section-title">Impacto Ambiental</h2>
         
@@ -503,47 +414,14 @@ function renderImpactoAmbiental(container) {
             <p>Es responsable de la emisión de las Resoluciones de CAAM (Certificado de Aptitud Ambiental) y de la capacitación o asesoramiento para la obtención del mismo.</p>
         </div>
         
-        <div class="row g-4 mb-4">
-            <div class="col-md-6 col-lg-4">
-                ${createKpiCard('CAAMs Emitidos', caams ? caams['ACUMULADO TOTAL'] : 0, '📜', 'kpi-icon-blue')}
-            </div>
+        <div class="alert alert-info" role="alert">
+            <span class="emoji-icon">ℹ️</span>
+            No hay indicadores numéricos (KPIs) disponibles en la hoja de datos para esta Dirección.
         </div>
-
-        <div class="row g-4">
-            <div class="col-lg-12">
-                <div class="chart-container">
-                    <h5>Comparativa Anual de CAAMs</h5>
-                    <div class="chart-wrapper" style="position: relative; height: 350px;">
-                        <div id="chart-caams"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        ${createRelatedIndicatorsTable('Indicadores de la Dirección de Impacto Ambiental', 'Dirección de Impacto Ambiental')}
     `;
-    
-    animateCounter('kpi-caams-emitidos', caams ? caams['ACUMULADO TOTAL'] : 0);
-
-    if (caams) {
-        createBarChart(
-            'chart-caams',
-            ['2024', '2025 (Meta)'],
-            'Certificados',
-            [caams['ACUMULADO 2024'], caams['ACUMULADO 2025']],
-            '#02b3e4'
-        );
-    }
 }
 
-// FUNCIÓN MEJORADA: Usa datos de Patrulla y gráfico comparativo
 function renderPatrullaAmbiental(container) {
-    const operativos = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('OPERATIVOS DE PATRULLA'));
-    const denuncias = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('DENUNCIAS AMBIENTALES'));
-
-    const operativosTotal = operativos ? operativos['ACUMULADO TOTAL'] : 0;
-    const denunciasTotal = denuncias ? denuncias['ACUMULADO TOTAL'] : 0;
-    
     container.innerHTML = `
         <h2 class="section-title">Patrulla Ambiental</h2>
         
@@ -551,46 +429,14 @@ function renderPatrullaAmbiental(container) {
             <p>Sus funciones incluyen operativos de fiscalización y control de microbasurales, colaboraciones especiales con otras áreas municipales, la generación de reportes diarios/denuncias, y la emisión de actas de infracción y cédulas de notificación.</p>
         </div>
         
-        <div class="row g-4 mb-4">
-            <div class="col-md-6 col-lg-4">
-                ${createKpiCard('Operativos Realizados', operativosTotal, '🚓', 'kpi-icon-purple')}
-            </div>
-            <div class="col-md-6 col-lg-4">
-                ${createKpiCard('Denuncias Atendidas', denunciasTotal, '🚨', 'kpi-icon-orange')}
-            </div>
+        <div class="alert alert-info" role="alert">
+            <span class="emoji-icon">ℹ️</span>
+            No hay indicadores numéricos (KPIs) disponibles en la hoja de datos para esta Dirección.
         </div>
-
-        <div class="row g-4">
-            <div class="col-lg-12">
-                <div class="chart-container">
-                    <h5>Operativos de Patrulla vs. Denuncias (2024)</h5>
-                    <div class="chart-wrapper" style="position: relative; height: 350px;">
-                        <div id="chart-patrulla"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        ${createRelatedIndicatorsTable('Indicadores de la Dirección de Patrulla Ambiental', 'Dirección de Patrulla Ambiental')}
     `;
-
-    animateCounter('kpi-operativos-realizados', operativosTotal);
-    animateCounter('kpi-denuncias-atendidas', denunciasTotal);
-
-    if (operativos && denuncias) {
-        const data = [
-            { label: 'Operativos', value: operativos['ACUMULADO 2024'], color: '#7b2cbf' },
-            { label: 'Denuncias', value: denuncias['ACUMULADO 2024'], color: '#ff8c00' }
-        ];
-        // Se usa una función especial para gráficos comparativos de dos barras
-        createCustomBarChart('chart-patrulla', data);
-    }
 }
 
-// FUNCIÓN MEJORADA: Usa datos de Proyectos Ambientales
 function renderProyectosAmbientales(container) {
-    const espaciosVerdes = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('ESPACIOS VERDES INTERVENIDOS'));
-
     container.innerHTML = `
         <h2 class="section-title">Proyectos Ambientales</h2>
         
@@ -598,43 +444,16 @@ function renderProyectosAmbientales(container) {
             <p>Se encarga de la puesta a punto, el enriquecimiento y el mantenimiento de espacios verdes (plazas, platabandas, rotondas, etc.).</p>
         </div>
         
-        <div class="row g-4 mb-4">
-            <div class="col-md-6 col-lg-4">
-                ${createKpiCard('Espacios Verdes Intervenidos', espaciosVerdes ? espaciosVerdes['ACUMULADO TOTAL'] : 0, '🌲', 'kpi-icon-green')}
-            </div>
+        <div class="alert alert-info" role="alert">
+            <span class="emoji-icon">ℹ️</span>
+            No hay indicadores numéricos (KPIs) disponibles en la hoja de datos para esta Dirección.
         </div>
-
-        <div class="row g-4">
-            <div class="col-lg-12">
-                <div class="chart-container">
-                    <h5>Comparativa de Intervenciones Anuales</h5>
-                    <div class="chart-wrapper" style="position: relative; height: 350px;">
-                        <div id="chart-proyectos"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        ${createRelatedIndicatorsTable('Indicadores de la Dirección de Proyectos Ambientales', 'Dirección de Proyectos Ambientales')}
     `;
-    
-    animateCounter('kpi-espacios-verdes-intervenidos', espaciosVerdes ? espaciosVerdes['ACUMULADO TOTAL'] : 0);
-
-    if (espaciosVerdes) {
-        createBarChart(
-            'chart-proyectos',
-            ['2024', '2025 (Meta)'],
-            'Intervenciones',
-            [espaciosVerdes['ACUMULADO 2024'], espaciosVerdes['ACUMULADO 2025']],
-            '#009a44'
-        );
-    }
 }
 
-// CORRECCIÓN: Se agrega la verificación 'd.INDICADOR &&'
 function renderArticulacion(container) {
-    const convenios = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('CONVENIOS'));
-    const campanas = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('CAMPAÑAS'));
+    const convenios = datosIndicadores.find(d => d.INDICADOR.includes('CONVENIOS'));
+    const campanas = datosIndicadores.find(d => d.INDICADOR.includes('CAMPAÑAS'));
     
     container.innerHTML = `
         <h2 class="section-title">Articulación</h2>
@@ -651,21 +470,27 @@ function renderArticulacion(container) {
                 ${createKpiCard('Campañas de Comunicación', campanas ? campanas['ACUMULADO TOTAL'] : 0, '🎤', 'kpi-icon-blue')}
             </div>
         </div>
-        
-        ${createRelatedIndicatorsTable('Indicadores de la Subsecretaría de Gestión Ambiental', 'Subsecretaría de Gestión Ambiental')}
     `;
     
     animateCounter('kpi-convenios-firmados', convenios ? convenios['ACUMULADO TOTAL'] : 0);
     animateCounter('kpi-campanas-de-comunicacion', campanas ? campanas['ACUMULADO TOTAL'] : 0);
 }
 
-// =========================================
-// ----- FUNCIONES DE UTILIDAD Y COMPONENTES -----
-// =========================================
-
+// Funciones de utilidad
 function createKpiCard(label, value, icon, colorClass) {
-    // Generación de ID más robusto (incluye manejo de caracteres especiales)
-    const kpiId = 'kpi-' + label.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+    let kpiLabel = label.toLowerCase();
+    
+    // FIX: Normalizar caracteres especiales (ñ, acentos) para que coincidan con los IDs hardcodeados
+    kpiLabel = kpiLabel.replace(/ñ/g, 'n')
+                       .replace(/á/g, 'a')
+                       .replace(/é/g, 'e')
+                       .replace(/í/g, 'i')
+                       .replace(/ó/g, 'o')
+                       .replace(/ú/g, 'u');
+
+    // Generar el ID eliminando caracteres no alfanuméricos y reemplazando por guiones
+    // Reemplaza múltiples caracteres (incluidos espacios y el resto de puntuación/caracteres especiales) con un solo guión
+    const kpiId = 'kpi-' + kpiLabel.replace(/[^a-z0-9]/g, '-');
     
     return `
         <div class="kpi-card">
@@ -682,49 +507,33 @@ function createKpiCard(label, value, icon, colorClass) {
     `;
 }
 
-// CORRECCIÓN: Función de contador mejorada para manejar grandes números y decimales
 function animateCounter(id, endValue) {
     const el = document.getElementById(id);
     if (!el) return;
-
-    const finalValue = Number(endValue);
-    if (isNaN(finalValue)) {
-        el.textContent = endValue;
-        return;
-    }
 
     let startValue = 0;
     const duration = 1500;
     const stepTime = 20;
     const steps = duration / stepTime;
-    const increment = finalValue / steps;
+    const increment = endValue / steps;
     
-    // Determinar si es float o no
-    const isFloat = finalValue % 1 !== 0 || String(finalValue).includes('.');
-    const decimalPlaces = isFloat ? 2 : 0;
+    const isFloat = endValue % 1 !== 0;
 
     const timer = setInterval(() => {
         startValue += increment;
-        if (startValue >= finalValue) {
+        if (startValue >= endValue) {
             clearInterval(timer);
-            // Mostrar el valor final con formato
-            el.textContent = finalValue.toLocaleString('es-AR', {minimumFractionDigits: decimalPlaces, maximumFractionDigits: decimalPlaces});
+            el.textContent = isFloat ? 
+                endValue.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) : 
+                endValue.toLocaleString('es-AR');
         } else {
-            // Mostrar el valor actual con formato
-            const displayValue = isFloat ? startValue : Math.ceil(startValue);
-            el.textContent = displayValue.toLocaleString('es-AR', {minimumFractionDigits: decimalPlaces, maximumFractionDigits: decimalPlaces});
+            el.textContent = isFloat ? 
+                startValue.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) : 
+                Math.ceil(startValue).toLocaleString('es-AR');
         }
     }, stepTime);
 }
 
-/**
- * Crea un gráfico de barras simple para comparación anual.
- * @param {string} containerId ID del contenedor DIV.
- * @param {string[]} labels Etiquetas de los ejes (ej: ['2024', '2025']).
- * @param {string} dataLabel Nombre de la serie de datos.
- * @param {number[]} data Valores numéricos.
- * @param {string} color Color de las barras.
- */
 function createBarChart(containerId, labels, dataLabel, data, color = '#02b3e4') {
     const container = document.getElementById(containerId);
     if (!container) return;
@@ -732,28 +541,19 @@ function createBarChart(containerId, labels, dataLabel, data, color = '#02b3e4')
     container.innerHTML = '';
 
     const barChartEl = document.createElement('div');
-    // CORRECCIÓN: Se mantiene el estilo general, el ancho se ajusta en CSS
     barChartEl.classList.add('simple-bar-chart');
 
-    const dataArray = data.map(Number).filter(n => !isNaN(n));
-    const maxValue = Math.max(...dataArray, 1);
-    const dataDisplay = data;
+    const maxValue = Math.max(...data, 1);
 
-    dataArray.forEach((value, index) => {
+    data.forEach((value, index) => {
         const bar = document.createElement('div');
         bar.classList.add('bar');
         bar.style.backgroundColor = color;
-        // Ajuste de altura para dejar espacio para la etiqueta superior
-        const heightPercent = (value / maxValue) * 90;
+        const heightPercent = (value / maxValue) * 100;
         bar.style.height = `${heightPercent}%`;
-        
-        // CORRECCIÓN: Evitar NaN si el dato es null/undefined
-        const displayValue = (dataDisplay[index] !== undefined && dataDisplay[index] !== null) ? Number(dataDisplay[index]) : 0;
-        const isFloat = displayValue % 1 !== 0 || String(displayValue).includes('.');
-        const decimalPlaces = isFloat ? 2 : 0;
 
         const spanValue = document.createElement('span');
-        spanValue.textContent = displayValue.toLocaleString('es-AR', {minimumFractionDigits: decimalPlaces, maximumFractionDigits: decimalPlaces});
+        spanValue.textContent = value.toLocaleString('es-AR');
         bar.appendChild(spanValue);
 
         const labelEl = document.createElement('div');
@@ -767,131 +567,31 @@ function createBarChart(containerId, labels, dataLabel, data, color = '#02b3e4')
     container.appendChild(barChartEl);
 }
 
-
-/**
- * Crea un gráfico de barras para comparar diferentes categorías con colores distintos.
- * @param {string} containerId ID del contenedor DIV.
- * @param {Array<{label: string, value: number, color: string}>} data Array de objetos de datos.
- */
-function createCustomBarChart(containerId, data) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-
-    container.innerHTML = '';
-
-    const barChartEl = document.createElement('div');
-    barChartEl.classList.add('simple-bar-chart');
-
-    const dataValues = data.map(d => Number(d.value)).filter(n => !isNaN(n));
-    const maxValue = Math.max(...dataValues, 1);
-
-    data.forEach(item => {
-        const value = Number(item.value);
-        if (isNaN(value)) return;
-
-        const bar = document.createElement('div');
-        // CORRECCIÓN: Se añade una clase para barras más anchas en gráficos de dos elementos.
-        bar.classList.add('bar', 'bar-wide'); 
-        bar.style.backgroundColor = item.color;
-        const heightPercent = (value / maxValue) * 90;
-        bar.style.height = `${heightPercent}%`;
-        
-        const isFloat = value % 1 !== 0 || String(value).includes('.');
-        const decimalPlaces = isFloat ? 2 : 0;
-
-        const spanValue = document.createElement('span');
-        spanValue.textContent = value.toLocaleString('es-AR', {minimumFractionDigits: decimalPlaces, maximumFractionDigits: decimalPlaces});
-        bar.appendChild(spanValue);
-
-        const labelEl = document.createElement('div');
-        labelEl.classList.add('label');
-        labelEl.textContent = item.label;
-        bar.appendChild(labelEl);
-
-        barChartEl.appendChild(bar);
-    });
-
-    container.appendChild(barChartEl);
-}
-
-/**
- * Crea una tabla de indicadores relacionados para mostrar detalles.
- * @param {string} title Título de la sección de la tabla.
- * @param {string} filterDependencia Valor exacto de AREA/DEPENDENCIA a filtrar.
- */
-function createRelatedIndicatorsTable(title, filterDependencia) {
-    const relatedIndicators = datosIndicadores.filter(d => 
-        d['AREA/DEPENDENCIA'] === filterDependencia
-    );
-
-    if (relatedIndicators.length === 0) {
-        // CORRECCIÓN: Reemplazo del mensaje por una tabla vacía, más estético y útil para el diseño
-        return `<div class="alert alert-warning mt-4" role="alert">
-            <strong>⚠️ Indicadores Directos:</strong> No se encontraron KPIs específicos en los datos base para esta dirección.
-        </div>`;
-    }
-
-    let tableRows = relatedIndicators.map(d => `
-        <tr>
-            <td>${d.INDICADOR}</td>
-            <td>${d['AREA/DEPENDENCIA']}</td>
-            <td>${Number(d['ACUMULADO TOTAL']).toLocaleString('es-AR', {minimumFractionDigits: 0, maximumFractionDigits: 2})}</td>
-        </tr>
-    `).join('');
-
-    return `
-        <div class="chart-container mt-4">
-            <h5>${title}</h5>
-            <div class="table-responsive">
-                <table class="table table-related-indicators">
-                    <thead>
-                        <tr>
-                            <th>Indicador</th>
-                            <th>Dependencia</th>
-                            <th>Acumulado Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${tableRows}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    `;
-}
-
-
-// =========================================
-// ----- FUNCIONES DE MAPA Y EXPORTACIÓN -----
-// =========================================
-
 function initializeMap(markersData, type) {
     const mapEl = document.getElementById('map');
     if (!mapEl) return;
-
-    // Asegurarse de que el mapa no se inicialice dos veces
-    if (mapInstance) {
-        mapInstance.remove();
-    }
 
     mapInstance = L.map('map').setView(SALTA_CENTER, 13);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(mapInstance);
 
-    // Iconos personalizados con SVG
-    const createSvgIcon = (fillColor) => L.icon({
-        iconUrl: 'data:image/svg+xml;base64,' + btoa(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="${fillColor}" width="32px" height="32px"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`),
+    // Iconos personalizados
+    const barrioIcon = L.icon({
+        iconUrl: 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#D90429" width="32px" height="32px"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>'),
         iconSize: [32, 32],
         iconAnchor: [16, 32],
         popupAnchor: [0, -32]
     });
     
-    const barrioIcon = createSvgIcon('#D90429'); // Rojo
-    const puntoLimpioIcon = createSvgIcon('#009A44'); // Verde
+    const puntoLimpioIcon = L.icon({
+        iconUrl: 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#009A44" width="32px" height="32px"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>'),
+        iconSize: [32, 32],
+        iconAnchor: [16, 32],
+        popupAnchor: [0, -32]
+    });
 
     // Añadir marcadores
-    const validMarkers = [];
     markersData.forEach(d => {
         if (d.lat && d.lng) {
             let popupContent = '';
@@ -905,20 +605,16 @@ function initializeMap(markersData, type) {
                 icon = puntoLimpioIcon;
             }
             
-            const marker = L.marker([d.lat, d.lng], { icon: icon })
+            L.marker([d.lat, d.lng], { icon: icon })
                 .addTo(mapInstance)
                 .bindPopup(popupContent);
-            
-            validMarkers.push(marker);
         }
     });
     
     // Ajustar el zoom a los marcadores si hay datos
-    if (validMarkers.length > 0) {
-        const group = new L.featureGroup(validMarkers);
+    if (markersData.length > 0) {
+        const group = new L.featureGroup(markersData.map(d => L.marker([d.lat, d.lng])));
         mapInstance.fitBounds(group.getBounds().pad(0.1));
-    } else {
-         mapInstance.setView(SALTA_CENTER, 13);
     }
 }
 
@@ -931,15 +627,13 @@ function exportToCSV() {
     const headers = Object.keys(datosIndicadores[0]);
     let csvContent = "data:text/csv;charset=utf-8,";
     
-    // Formato de cabecera usando ';' como delimitador
     csvContent += headers.join(";") + "\r\n";
 
     datosIndicadores.forEach(row => {
         const values = headers.map(header => {
             let cell = row[header] === null || row[header] === undefined ? '' : row[header];
             cell = String(cell).replace(/"/g, '""');
-            // Si el contenido contiene el delimitador o un salto de línea, encapsularlo
-            if (cell.includes(';') || cell.includes(',') || cell.includes('\n')) {
+            if (cell.includes(';') || cell.includes(',')) {
                 cell = `"${cell}"`;
             }
             return cell;
