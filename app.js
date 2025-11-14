@@ -374,7 +374,7 @@ function renderEconomiaCircular(container) {
     animateCounter('kpi-puntos-limpios-instalados', puntosLimpiosData ? puntosLimpiosData['ACUMULADO TOTAL'] : 0);
 
     // Mapa
-    initializeMap(puntosLimpios, 'punto-limpio');
+    initializeMap(puntosLimpiosData, 'punto-limpio');
 }
 
 
