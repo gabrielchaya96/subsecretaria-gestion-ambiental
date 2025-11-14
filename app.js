@@ -299,8 +299,8 @@ function renderEducacionAmbiental(container) {
     `;
     
     // Animar contadores
-    animateCounter('kpi-ninos-en-talleres', talleres ? talleres['ACUMULADO TOTAL'] : 0);
-    animateCounter('kpi-alumnos-en-promesa-al-ambiente', promesa ? promesa['ACUMULADO TOTAL'] : 0);
+    animateCounter('kpi-ninos-talleres', talleres ? talleres['ACUMULADO TOTAL'] : 0);
+    kpi-alumnos-en-promesa-al-ambiente
     
     // Crear gráfico
     if (talleres) {
