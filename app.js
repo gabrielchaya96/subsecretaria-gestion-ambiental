@@ -346,35 +346,37 @@ function renderEconomiaCircular(container) {
 
         <div class="row g-4 mb-4">
             <div class="col-md-6 col-lg-4">
-                ${createKpiCard(
-                    'Neumáticos Tn',
-                    neumaticos ? neumaticos['ACUMULADO TOTAL'] : 0,
-                    '🚚',
-                    'kpi-icon-orange',
-                    'kpi-neumaticos-tn'
-                )}
+                ${createKpiCard('Neumáticos Tn', neumaticos ? neumaticos['ACUMULADO TOTAL'] : 0, '🚚', 'kpi-icon-orange', 'kpi-neumaticos-tn')}
             </div>
 
             <div class="col-md-6 col-lg-4">
-                ${createKpiCard(
-                    'RAEE Tn',
-                    raee ? raee['ACUMULADO TOTAL'] : 0,
-                    '💻',
-                    'kpi-icon-purple',
-                    'kpi-raee-tn'
-                )}
+                ${createKpiCard('RAEE Tn', raee ? raee['ACUMULADO TOTAL'] : 0, '💻', 'kpi-icon-purple', 'kpi-raee-tn')}
             </div>
 
             <div class="col-md-6 col-lg-4">
-                ${createKpiCard(
-                    'Puntos Limpios Instalados',
-                    puntosLimpiosData ? puntosLimpiosData['ACUMULADO TOTAL'] : 0,
-                    '📍',
-                    'kpi-icon-green',
-                    'kpi-puntos-limpios-instalados'
-                )}
+                ${createKpiCard('Puntos Limpios Instalados', puntosLimpiosData ? puntosLimpiosData['ACUMULADO TOTAL'] : 0, '📍', 'kpi-icon-green', 'kpi-puntos-limpios-instalados')}
             </div>
         </div>
+
+        <div class="row g-4">
+            <div class="col-lg-12">
+                <div class="chart-container">
+                    <h5>Mapa de Puntos Limpios</h5>
+                    <div id="map"></div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Animaciones
+    animateCounter('kpi-neumaticos-tn', neumaticos ? neumaticos['ACUMULADO TOTAL'] : 0);
+    animateCounter('kpi-raee-tn', raee ? raee['ACUMULADO TOTAL'] : 0);
+    animateCounter('kpi-puntos-limpios-instalados', puntosLimpiosData ? puntosLimpiosData['ACUMULADO TOTAL'] : 0);
+
+    // Mapa
+    initializeMap(puntosLimpios, 'punto-limpio');
+}
+
 
 
 // CORRECCIÓN: Se agrega la verificación 'd.INDICADOR &&'
