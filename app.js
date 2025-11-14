@@ -336,44 +336,46 @@ function renderEconomiaCircular(container) {
     const neumaticos = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('NEUMATÓN'));
     const raee = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('RAEETÓN'));
     const puntosLimpiosData = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('PUNTOS LIMPIOS'));
-    
+
     container.innerHTML = `
         <h2 class="section-title">Economía Circular</h2>
-        
+
         <div class="section-description">
             <p>Participa en actividades como el Neumatón (recolección de Neumáticos Fuera de Uso), la RAEETÓN (recolección de Residuos Electrónicos y Eléctricos en Desuso), la formulación de proyectos, la instalación de Ecopuntos y Puntos Limpios, y la coordinación de retiros masivos de NFU.</p>
         </div>
-        
+
         <div class="row g-4 mb-4">
             <div class="col-md-6 col-lg-4">
-                ${createKpiCard('Neumáticos (Tn)', neumaticos ? neumaticos['ACUMULADO TOTAL'] : 0, '🚚', 'kpi-icon-orange')}
+                ${createKpiCard(
+                    'Neumáticos Tn',
+                    neumaticos ? neumaticos['ACUMULADO TOTAL'] : 0,
+                    '🚚',
+                    'kpi-icon-orange',
+                    'kpi-neumaticos-tn'
+                )}
             </div>
+
             <div class="col-md-6 col-lg-4">
-                ${createKpiCard('RAEE (Tn)', raee ? raee['ACUMULADO TOTAL'] : 0, '💻', 'kpi-icon-purple')}
+                ${createKpiCard(
+                    'RAEE Tn',
+                    raee ? raee['ACUMULADO TOTAL'] : 0,
+                    '💻',
+                    'kpi-icon-purple',
+                    'kpi-raee-tn'
+                )}
             </div>
+
             <div class="col-md-6 col-lg-4">
-                ${createKpiCard('Puntos Limpios Instalados', puntosLimpiosData ? puntosLimpiosData['ACUMULADO TOTAL'] : 0, '📍', 'kpi-icon-green')}
+                ${createKpiCard(
+                    'Puntos Limpios Instalados',
+                    puntosLimpiosData ? puntosLimpiosData['ACUMULADO TOTAL'] : 0,
+                    '📍',
+                    'kpi-icon-green',
+                    'kpi-puntos-limpios-instalados'
+                )}
             </div>
         </div>
-        
-        <div class="row g-4">
-            <div class="col-lg-12">
-                <div class="chart-container">
-                    <h5>Mapa de Puntos Limpios</h5>
-                    <div id="map"></div>
-                </div>
-            </div>
-        </div>
-    `;
-    
-    // Animar contadores
-    animateCounter('kpi-neumaticos-tn', neumaticos ? neumaticos['ACUMULADO TOTAL'] : 0);
-    animateCounter('kpi-raee-tn', raee ? raee['ACUMULADO TOTAL'] : 0);
-    animateCounter('kpi-puntos-limpios-instalados', puntosLimpiosData ? puntosLimpiosData['ACUMULADO TOTAL'] : 0);
-    
-    // Inicializar mapa
-    initializeMap(puntosLimpios, 'punto-limpio');
-}
+
 
 // CORRECCIÓN: Se agrega la verificación 'd.INDICADOR &&'
 function renderCambioClimatico(container) {
