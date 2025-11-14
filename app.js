@@ -269,14 +269,14 @@ function renderSection(sectionName) {
 function renderEducacionAmbiental(container) {
     const talleres = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('TALLERES'));
     const promesa = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('PROMESA'));
-    
+
     container.innerHTML = `
         <h2 class="section-title">Educación Ambiental</h2>
-        
+
         <div class="section-description">
             <p>Esta área se encarga de actividades como talleres de educación ambiental, operativos puerta a puerta, la conformación de la mesa intersectorial de Educación Ambiental, eventos de siembra de árboles, capacitación de docentes, y la difusión de contenido ambiental en redes y medios.</p>
         </div>
-        
+
         <div class="row g-4 mb-4">
             <div class="col-md-6 col-lg-4">
                 ${createKpiCard(
@@ -287,6 +287,7 @@ function renderEducacionAmbiental(container) {
                     'kpi-ninos-en-talleres'
                 )}
             </div>
+
             <div class="col-md-6 col-lg-4">
                 ${createKpiCard(
                     'Alumnos en Promesa al Ambiente',
@@ -297,30 +298,34 @@ function renderEducacionAmbiental(container) {
                 )}
             </div>
         </div>
-        
+
         <div class="row g-4">
             <div class="col-lg-12">
                 <div class="chart-container">
                     <h5>Comparativa Anual de Talleres</h5>
                     <div class="chart-wrapper" style="position: relative; height: 350px;">
-                        <div id="chart-talleres"></div>
+                        <canvas id="chart-talleres"></canvas>
                     </div>
                 </div>
             </div>
         </div>
     `;
-    
-    // Animar contadores
+
+    // ANIMACIONES
     animateCounter('kpi-ninos-en-talleres', talleres ? talleres['ACUMULADO TOTAL'] : 0);
     animateCounter('kpi-alumnos-en-promesa-al-ambiente', promesa ? promesa['ACUMULADO TOTAL'] : 0);
-    
-    // Crear gráfico
+
+    // GRAFICO
     if (talleres) {
         createBarChart(
             'chart-talleres',
             ['2024', '2025', '2026 (Meta)'],
             'Niños capacitados',
-            [talleres['ACUMULADO 2024'], talleres['ACUMULADO 2025'], talleres['ACUMULADO 2026']],
+            [
+                talleres['ACUMULADO 2024'],
+                talleres['ACUMULADO 2025'],
+                talleres['ACUMULADO 2026']
+            ],
             '#009a44'
         );
     }
