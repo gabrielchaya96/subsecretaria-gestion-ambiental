@@ -215,21 +215,6 @@ const puntosLimpios = [
         "lng": -65.418
     }
 ];
-const puntosLimpios = [
-    {
-        "NOMBRE": "Punto Limpio Norte",
-        "DIRECCION": "Av. Bolivia 2550",
-        "lat": -24.746,
-        "lng": -65.412
-    },
-    {
-        "NOMBRE": "Punto Limpio Sur",
-        "DIRECCION": "Av. Paraguay 1240",
-        "lat": -24.809,
-        "lng": -65.418
-    }
-];
-
 const EA2025 = {
     talleres: { jul:2, ago:5, sep:36, oct:19 },
     redes: { jul:20110, ago:20825, sep:20600, oct:23000 },
@@ -478,7 +463,7 @@ function renderEconomiaCircular(container) {
     animateCounter('kpi-puntos-limpios-instalados', puntosLimpiosData ? puntosLimpiosData['ACUMULADO TOTAL'] : 0);
 
     // Mapa
-    initializeMap(puntosLimpiosData, 'punto-limpio');
+    initializeMap(puntosLimpios, 'punto-limpio');
 }
 
 
