@@ -1,3 +1,40 @@
+// EDUCACIÓN AMBIENTAL – Datos 2025
+const EA2025 = {
+    talleres: { jul:2, ago:5, sep:36, oct:19 },
+    redes: { jul:20110, ago:20825, sep:20600, oct:23000 },
+
+    acumulados: {
+        talleres:112,
+        escuelasVisitadas:17,
+        puertaPuerta:9,
+        barriosVisitados:23,
+        institucionesMesa:1,
+        accionesMesa:15,
+        siembra:3,
+        docentes:104,
+        reciclarte:1,
+        feriaEducAmbiental:2,
+        pilas:11,
+        medios:13,
+        redesAlcance:94535,
+        concientizacionMunicipal:2,
+        articulacion:27,
+        asesoramiento:6,
+        promesa:1,
+        peregrinacion:1,
+        plasticosEventos:6.1,
+        vacaciones:8,
+        standMuni:1062,
+        extension:9,
+        economiaCircular:4,
+        papel:4,
+        feriaCircular:2,
+        circuitoArboles:32,
+        ecoamigables:10,
+        casita:82
+    }
+};
+
 // Datos de ejemplo - Estos se pueden reemplazar fácilmente
 const datosIndicadores = [
     {
@@ -177,6 +214,42 @@ const puntosLimpios = [
         "lat": -24.809,
         "lng": -65.418
     }
+    const EA2025 = {
+    talleres: { jul:2, ago:5, sep:36, oct:19 },
+    redes: { jul:20110, ago:20825, sep:20600, oct:23000 },
+
+    acumulados: {
+        talleres:112,
+        escuelasVisitadas:17,
+        puertaPuerta:9,
+        barriosVisitados:23,
+        institucionesMesa:1,
+        accionesMesa:15,
+        siembra:3,
+        docentes:104,
+        reciclarte:1,
+        feriaEducAmbiental:2,
+        pilas:11,
+        medios:13,
+        redesAlcance:94535,
+        concientizacionMunicipal:2,
+        articulacion:27,
+        asesoramiento:6,
+        promesa:1,
+        peregrinacion:1,
+        plasticosEventos:6.1,
+        vacaciones:8,
+        standMuni:1062,
+        extension:9,
+        economiaCircular:4,
+        papel:4,
+        feriaCircular:2,
+        circuitoArboles:32,
+        ecoamigables:10,
+        casita:82
+    }
+};
+
 ];
 
 // Variables globales
@@ -267,69 +340,85 @@ function renderSection(sectionName) {
 
 // CORRECCIÓN: Se agrega la verificación 'd.INDICADOR &&'
 function renderEducacionAmbiental(container) {
-    const talleres = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('TALLERES'));
-    const promesa = datosIndicadores.find(d => d.INDICADOR && d.INDICADOR.includes('PROMESA'));
 
     container.innerHTML = `
         <h2 class="section-title">Educación Ambiental</h2>
 
         <div class="section-description">
-            <p>Esta área se encarga de actividades como talleres de educación ambiental, operativos puerta a puerta, la conformación de la mesa intersectorial de Educación Ambiental, eventos de siembra de árboles, capacitación de docentes, y la difusión de contenido ambiental en redes y medios.</p>
+            <p>Resumen de acciones, impactos y participación ciudadana correspondiente al año 2025.</p>
         </div>
 
+        <!-- KPIs PRINCIPALES -->
         <div class="row g-4 mb-4">
-            <div class="col-md-6 col-lg-4">
-                ${createKpiCard(
-                    'Niños en Talleres',
-                    talleres ? talleres['ACUMULADO TOTAL'] : 0,
-                    '🏫',
-                    'kpi-icon-green',
-                    'kpi-ninos-en-talleres'
-                )}
-            </div>
 
-            <div class="col-md-6 col-lg-4">
-                ${createKpiCard(
-                    'Alumnos en Promesa al Ambiente',
-                    promesa ? promesa['ACUMULADO TOTAL'] : 0,
-                    '👧👦',
-                    'kpi-icon-blue',
-                    'kpi-alumnos-en-promesa-al-ambiente'
-                )}
-            </div>
+            ${createKpiCard("Talleres de Educación Ambiental", EA2025.acumulados.talleres, "📚", "kpi-icon-green", "kpi-talleres")}
+            ${createKpiCard("Escuelas Visitadas", EA2025.acumulados.escuelasVisitadas, "🏫", "kpi-icon-blue", "kpi-escuelas")}
+            ${createKpiCard("Docentes Capacitados", EA2025.acumulados.docentes, "🧑‍🏫", "kpi-icon-purple", "kpi-docentes")}
+            ${createKpiCard("Alcance en Redes", EA2025.acumulados.redesAlcance, "📱", "kpi-icon-yellow", "kpi-redes")}
+            ${createKpiCard("Vecinos en Ferias / Stands", EA2025.acumulados.standMuni, "👨‍👩‍👧‍👦", "kpi-icon-orange", "kpi-ferias")}
+            ${createKpiCard("Plásticos Recuperados (Tn)", EA2025.acumulados.plasticosEventos, "♻️", "kpi-icon-red", "kpi-plasticos")}
+
         </div>
 
-        <div class="row g-4">
-            <div class="col-lg-12">
-                <div class="chart-container">
-                    <h5>Comparativa Anual de Talleres</h5>
-                    <div class="chart-wrapper" style="position: relative; height: 350px;">
-                        <div id="chart-talleres"></div>
-                    </div>
-                </div>
-            </div>
+        <!-- GRAFICO 1: Talleres por Mes -->
+        <div class="chart-container mb-5">
+            <h5>Talleres de Educación Ambiental – Por Mes (2025)</h5>
+            <div id="ea-chart-talleres"></div>
+            <p class="chart-legend">Fuente: Dirección General de Educación Ambiental – Datos 2025</p>
+        </div>
+
+        <!-- GRAFICO 2: Visualizaciones en Redes -->
+        <div class="chart-container mb-5">
+            <h5>Alcance en Redes Sociales – Por Mes (2025)</h5>
+            <div id="ea-chart-redes"></div>
+            <p class="chart-legend">IG · TikTok · Web Municipal</p>
+        </div>
+
+        <!-- GRAFICO 3: Ranking de Indicadores -->
+        <div class="chart-container mb-5">
+            <h5>Acciones Relevantes del Área – Ranking 2025</h5>
+            <div id="ea-chart-ranking"></div>
+            <p class="chart-legend">Incluye eventos, proyectos, acciones de territorio, capacitaciones y actividades institucionales.</p>
+        </div>
+
+        <!-- SECCIÓN DE LOGROS -->
+        <div class="impact-section">
+            <h4>Principales Logros del Año</h4>
+            <ul>
+                <li>🌱 <strong>${EA2025.acumulados.talleres}</strong> talleres educativos realizados.</li>
+                <li>🏫 <strong>${EA2025.acumulados.escuelasVisitadas}</strong> escuelas visitadas con acciones directas.</li>
+                <li>🧑‍🏫 <strong>${EA2025.acumulados.docentes}</strong> docentes capacitados con puntaje oficial.</li>
+                <li>👥 <strong>${EA2025.acumulados.standMuni}</strong> vecinos alcanzados en ferias y actividades territoriales.</li>
+                <li>📱 <strong>${EA2025.acumulados.redesAlcance.toLocaleString('es-AR')}</strong> visualizaciones en redes.</li>
+                <li>♻️ <strong>${EA2025.acumulados.plasticosEventos} Tn</strong> de residuos recuperados en eventos masivos.</li>
+            </ul>
         </div>
     `;
 
-    // ANIMACIONES
-    animateCounter('kpi-ninos-en-talleres', talleres ? talleres['ACUMULADO TOTAL'] : 0);
-    animateCounter('kpi-alumnos-en-promesa-al-ambiente', promesa ? promesa['ACUMULADO TOTAL'] : 0);
+    // Animación de KPIs
+    animateCounter("kpi-talleres", EA2025.acumulados.talleres);
+    animateCounter("kpi-escuelas", EA2025.acumulados.escuelasVisitadas);
+    animateCounter("kpi-docentes", EA2025.acumulados.docentes);
+    animateCounter("kpi-redes", EA2025.acumulados.redesAlcance);
+    animateCounter("kpi-ferias", EA2025.acumulados.standMuni);
+    animateCounter("kpi-plasticos", EA2025.acumulados.plasticosEventos);
 
-    // GRAFICO
-    if (talleres) {
-        createBarChart(
-            'chart-talleres',
-            ['2024', '2025', '2026 (Meta)'],
-            'Niños capacitados',
-            [
-                talleres['ACUMULADO 2024'],
-                talleres['ACUMULADO 2025'],
-                talleres['ACUMULADO 2026']
-            ],
-            '#009a44'
-        );
-    }
+    // Crear gráficos
+    createSimpleBarChart("ea-chart-talleres",
+        ["Jul", "Ago", "Sep", "Oct"],
+        [EA2025.talleres.jul, EA2025.talleres.ago, EA2025.talleres.sep, EA2025.talleres.oct],
+        "#009a44"
+    );
+
+    createSimpleLineChart("ea-chart-redes",
+        ["Jul", "Ago", "Sep", "Oct"],
+        [EA2025.redes.jul, EA2025.redes.ago, EA2025.redes.sep, EA2025.redes.oct],
+        "#007bff"
+    );
+
+    createHorizontalRanking("ea-chart-ranking", EA2025.acumulados);
 }
+
 
 // CORRECCIÓN: Se agrega la verificación 'd.INDICADOR &&'
 function renderEconomiaCircular(container) {
@@ -894,3 +983,81 @@ function exportToCSV() {
     link.click();
     document.body.removeChild(link);
 }
+
+function createSimpleBarChart(containerId, labels, data, color) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = "";
+
+    const max = Math.max(...data);
+
+    const chart = document.createElement("div");
+    chart.classList.add("simple-bar-chart");
+
+    data.forEach((value, i) => {
+        const bar = document.createElement("div");
+        bar.classList.add("bar");
+        bar.style.height = `${(value / max) * 90}%`;
+        bar.style.backgroundColor = color;
+
+        const text = document.createElement("span");
+        text.textContent = value;
+        bar.appendChild(text);
+
+        const label = document.createElement("div");
+        label.classList.add("label");
+        label.textContent = labels[i];
+        bar.appendChild(label);
+
+        chart.appendChild(bar);
+    });
+
+    container.appendChild(chart);
+}
+
+function createSimpleLineChart(containerId, labels, data, color) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = "";
+
+    const max = Math.max(...data);
+
+    const chart = document.createElement("div");
+    chart.classList.add("simple-line-chart");
+
+    let points = data.map((v,i)=> `<div class="point" style="left:${i*25}%; bottom:${(v/max)*90}%"></div>`).join("");
+
+    chart.innerHTML = `
+        <div class="line">${points}</div>
+        <div class="labels">${labels.map(l=>`<span>${l}</span>`).join("")}</div>
+    `;
+
+    container.appendChild(chart);
+}
+
+function createHorizontalRanking(containerId, valuesObj) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = "";
+
+    const entries = Object.entries(valuesObj)
+        .sort((a,b)=>b[1]-a[1])
+        .slice(0,10);
+
+    const max = entries[0][1];
+
+    const list = document.createElement("div");
+    list.classList.add("ranking-list");
+
+    entries.forEach(([name, value]) => {
+        const row = document.createElement("div");
+        row.classList.add("ranking-row");
+
+        row.innerHTML = `
+            <span class="label">${name.replace(/([A-Z])/g," $1")}</span>
+            <div class="bar" style="width:${(value/max)*100}%">${value}</div>
+        `;
+
+        list.appendChild(row);
+    });
+
+    container.appendChild(list);
+}
+
