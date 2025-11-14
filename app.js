@@ -279,10 +279,22 @@ function renderEducacionAmbiental(container) {
         
         <div class="row g-4 mb-4">
             <div class="col-md-6 col-lg-4">
-                ${createKpiCard('Niños en Talleres', talleres ? talleres['ACUMULADO TOTAL'] : 0, '🏫', 'kpi-icon-green', 'kpi-ninos-talleres')}
+                ${createKpiCard(
+                    'Niños en Talleres',
+                    talleres ? talleres['ACUMULADO TOTAL'] : 0,
+                    '🏫',
+                    'kpi-icon-green',
+                    'kpi-ninos-en-talleres'
+                )}
             </div>
             <div class="col-md-6 col-lg-4">
-                ${createKpiCard('Alumnos en "Promesa al Ambiente"', promesa ? promesa['ACUMULADO TOTAL'] : 0, '👧👦', 'kpi-icon-blue')}
+                ${createKpiCard(
+                    'Alumnos en Promesa al Ambiente',
+                    promesa ? promesa['ACUMULADO TOTAL'] : 0,
+                    '👧👦',
+                    'kpi-icon-blue',
+                    'kpi-alumnos-en-promesa-al-ambiente'
+                )}
             </div>
         </div>
         
@@ -299,8 +311,8 @@ function renderEducacionAmbiental(container) {
     `;
     
     // Animar contadores
-    animateCounter('kpi-ninos-talleres', talleres ? talleres['ACUMULADO TOTAL'] : 0);
-    kpi-alumnos-en-promesa-al-ambiente
+    animateCounter('kpi-ninos-en-talleres', talleres ? talleres['ACUMULADO TOTAL'] : 0);
+    animateCounter('kpi-alumnos-en-promesa-al-ambiente', promesa ? promesa['ACUMULADO TOTAL'] : 0);
     
     // Crear gráfico
     if (talleres) {
