@@ -279,7 +279,7 @@ function renderEducacionAmbiental(container) {
         
         <div class="row g-4 mb-4">
             <div class="col-md-6 col-lg-4">
-                ${createKpiCard('Niños en Talleres', talleres ? talleres['ACUMULADO TOTAL'] : 0, '🏫', 'kpi-icon-green')}
+                ${createKpiCard('Niños en Talleres', talleres ? talleres['ACUMULADO TOTAL'] : 0, '🏫', 'kpi-icon-green', 'kpi-ninos-talleres')}
             </div>
             <div class="col-md-6 col-lg-4">
                 ${createKpiCard('Alumnos en "Promesa al Ambiente"', promesa ? promesa['ACUMULADO TOTAL'] : 0, '👧👦', 'kpi-icon-blue')}
@@ -653,10 +653,9 @@ function renderArticulacion(container) {
 
 // Funciones de utilidad
 
-function createKpiCard(label, value, icon, colorClass) {
-    // CORRECCIÓN: Se hace el ID más seguro eliminando caracteres no alfanuméricos
-    const kpiId = 'kpi-' + label.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
-    
+function createKpiCard(label, value, icon, colorClass, idManual = null) {
+    const kpiId = idManual || 'kpi-' + label.toLowerCase().replace(/[^a-z0-9]/g, '-');
+
     return `
         <div class="kpi-card">
             <div class="card-body">
