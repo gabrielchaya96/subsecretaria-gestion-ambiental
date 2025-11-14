@@ -1,4 +1,4 @@
-Datos de ejemplo - Estos se pueden reemplazar fácilmente
+// Datos de ejemplo - Estos se pueden reemplazar fácilmente
 const datosIndicadores = [
     {
         "INDICADOR": "TALLERES DE EDUCACIÓN AMBIENTAL",
