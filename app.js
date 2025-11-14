@@ -1,3 +1,59 @@
+// ========================
+// DATOS FIJOS
+// ========================
+
+const puntosLimpios = [
+    {
+        "NOMBRE": "Punto Limpio Norte",
+        "DIRECCION": "Av. Bolivia 2550",
+        "lat": -24.746,
+        "lng": -65.412
+    },
+    {
+        "NOMBRE": "Punto Limpio Sur",
+        "DIRECCION": "Av. Paraguay 1240",
+        "lat": -24.809,
+        "lng": -65.418
+    }
+];
+
+const EA2025 = {
+    talleres: { jul:2, ago:5, sep:36, oct:19 },
+    redes: { jul:20110, ago:20825, sep:20600, oct:23000 },
+
+    acumulados: {
+        talleres:112,
+        escuelasVisitadas:17,
+        puertaPuerta:9,
+        barriosVisitados:23,
+        institucionesMesa:1,
+        accionesMesa:15,
+        siembra:3,
+        docentes:104,
+        reciclarte:1,
+        feriaEducAmbiental:2,
+        pilas:11,
+        medios:13,
+        redesAlcance:94535,
+        concientizacionMunicipal:2,
+        articulacion:27,
+        asesoramiento:6,
+        promesa:1,
+        peregrinacion:1,
+        plasticosEventos:6.1,
+        vacaciones:8,
+        standMuni:1062,
+        extension:9,
+        economiaCircular:4,
+        papel:4,
+        feriaCircular:2,
+        circuitoArboles:32,
+        ecoamigables:10,
+        casita:82
+    }
+};
+
+
 // EDUCACIÓN AMBIENTAL – Datos 2025
 const EA2025 = {
     talleres: { jul:2, ago:5, sep:36, oct:19 },
