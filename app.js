@@ -304,7 +304,7 @@ function renderEducacionAmbiental(container) {
                 <div class="chart-container">
                     <h5>Comparativa Anual de Talleres</h5>
                     <div class="chart-wrapper" style="position: relative; height: 350px;">
-                        <canvas id="chart-talleres"></canvas>
+                        <div id="chart-talleres"></div>
                     </div>
                 </div>
             </div>
