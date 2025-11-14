@@ -1020,17 +1020,34 @@ function createSimpleLineChart(containerId, labels, data, color) {
 
     const max = Math.max(...data);
 
-    const chart = document.createElement("div");
-    chart.classList.add("simple-line-chart");
+    const wrapper = document.createElement("div");
+    wrapper.classList.add("simple-line-chart");
 
-    let points = data.map((v,i)=> `<div class="point" style="left:${i*25}%; bottom:${(v/max)*90}%"></div>`).join("");
+    const line = document.createElement("div");
+    line.classList.add("line");
 
-    chart.innerHTML = `
-        <div class="line">${points}</div>
-        <div class="labels">${labels.map(l=>`<span>${l}</span>`).join("")}</div>
-    `;
+    data.forEach((value, i) => {
+        const point = document.createElement("div");
+        point.classList.add("point");
+        point.style.left = (i * 25) + "%";
+        point.style.bottom = ((value / max) * 90) + "%";
+        point.style.backgroundColor = color;
+        line.appendChild(point);
+    });
 
-    container.appendChild(chart);
+    const labelsContainer = document.createElement("div");
+    labelsContainer.classList.add("labels");
+
+    labels.forEach((l) => {
+        const span = document.createElement("span");
+        span.textContent = l;
+        labelsContainer.appendChild(span);
+    });
+
+    wrapper.appendChild(line);
+    wrapper.appendChild(labelsContainer);
+
+    container.appendChild(wrapper);
 }
 
 function createHorizontalRanking(containerId, valuesObj) {
